@@ -130,7 +130,7 @@ export default function Hero() {
             {/* Social Media Icons - At header border line (same line as logo, right side) */}
             <motion.div 
               data-social-icons
-              className="absolute right-6 z-20 flex items-center gap-3 social-icons-top"
+              className="absolute right-2 z-20 flex items-center gap-3 social-icons-top"
               style={{ top: '8.5rem' }}
               initial={{ opacity: 0, y: -10 }}
               animate={{ 

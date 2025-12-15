@@ -43,7 +43,7 @@ export function getConfig(): ShopConfig {
   if (cachedConfig) {
     return cachedConfig
   }
-  return siteConfig
+  return shopConfig
 }
 
 

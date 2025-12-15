@@ -69,6 +69,33 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
     window.open(mapUrl, '_blank')
   }
 
+  const handleShare = async () => {
+    const url = window.location.href
+    const title = shopConfig.name
+    const text = `Check out ${shopConfig.name}!`
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text,
+          url,
+        })
+      } catch (err) {
+        // User cancelled or error occurred
+        console.log('Share cancelled')
+      }
+    } else {
+      // Fallback: Copy to clipboard
+      try {
+        await navigator.clipboard.writeText(url)
+        alert('Link copied to clipboard!')
+      } catch (err) {
+        console.error('Failed to copy:', err)
+      }
+    }
+  }
+
   const handleSaveContact = () => {
     const vCard = generateVCard({
       name: shopConfig.name,
@@ -79,22 +106,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
       website: shopConfig.url,
     })
     downloadVCard(vCard, `${shopConfig.name.replace(/\s+/g, '-')}-contact.vcf`)
-  }
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: shopConfig.name,
-          text: `Check out ${shopConfig.name} - ${shopConfig.tagline}`,
-          url: window.location.href,
-        })
-      } catch (err) {
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href)
-      alert('Link copied to clipboard!')
-    }
   }
 
 
@@ -152,52 +163,75 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
           )}
         </div>
 
-        {/* Second Row: Menu/Order, Reviews, Location - Original layout for normal phones, 2 per row for Z Fold */}
-        <div className="flex gap-2 actions-row-second">
-          {/* Menu/Shopping Cart Button - With Shadow and Lift Effect */}
+        {/* Second Row: Menu/Order and Location */}
+        <div className="flex gap-2">
+          {/* Menu/Shopping Cart Button */}
           <Link
             href="https://honeymoneyfish.co/order-online/menu"
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98] px-4 touch-manipulation"
+            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] px-4 touch-manipulation"
             style={{ 
               color: '#0F172A',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
-              WebkitTapHighlightColor: 'transparent'
+              WebkitTapHighlightColor: 'transparent',
+              fontSize: '14px'
             }}
           >
-            <div className="relative">
-              <ShoppingCart className="w-4 h-4 relative z-10" style={{ color: '#475569', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
-            </div>
+            <ShoppingCart className="w-4 h-4" style={{ color: '#475569', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
             <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Menu/Order</span>
           </Link>
           
-          {/* Review Button - White with Yellow Star and Golden Shadow */}
+          {/* Location Button */}
+          <Button
+            onClick={handleDirections}
+            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] px-4 touch-manipulation"
+            style={{ 
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent',
+              fontSize: '14px'
+            }}
+          >
+            <MapPin className="w-4 h-4" style={{ color: '#EF4444', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+            <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Location</span>
+          </Button>
+        </div>
+
+        {/* Third Row: Reviews and Share */}
+        <div className="flex gap-2">
+          {/* Review Button */}
           <Link
             href="/reviews"
             onClick={(e) => e.stopPropagation()}
             className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] px-4 touch-manipulation"
             style={{ 
               color: '#0F172A',
-              boxShadow: '0 4px 12px rgba(234, 179, 8, 0.2), 0 2px 4px rgba(234, 179, 8, 0.15)',
-              WebkitTapHighlightColor: 'transparent'
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent',
+              fontSize: '14px'
             }}
           >
             <Star className="w-4 h-4" style={{ color: '#EAB308' }} fill="#EAB308" />
             <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Reviews</span>
           </Link>
 
-          {/* Location Button - Icon Only */}
+          {/* Share Button */}
           <Button
-            onClick={handleDirections}
-            className="h-11 w-14 location-btn bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center active:scale-[0.98] touch-manipulation"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleShare()
+            }}
+            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] px-4 touch-manipulation"
             style={{ 
+              color: '#0F172A',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
-              WebkitTapHighlightColor: 'transparent'
+              WebkitTapHighlightColor: 'transparent',
+              fontSize: '14px'
             }}
           >
-            <MapPin className="w-6 h-6 relative z-10" style={{ color: '#EF4444', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+            <Share2 className="w-4 h-4" style={{ color: '#3B82F6' }} />
+            <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Share</span>
           </Button>
         </div>
 
@@ -205,16 +239,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
         <div className="grid grid-cols-2 gap-2 actions-row-bottom">
           <Button
             onClick={handleSaveContact}
-            className="h-11 bg-white/80 hover:bg-white/90 backdrop-blur-md text-slate-700 font-medium rounded-2xl shadow-lg border-2 border-teal-500/70 hover:border-teal-600/90 relative overflow-hidden transition-all touch-manipulation"
+            className="h-11 bg-white/80 hover:bg-white/90 backdrop-blur-md text-slate-700 font-medium rounded-2xl border-2 border-teal-500/70 hover:border-teal-600/90 relative overflow-hidden transition-all touch-manipulation"
             style={{
-              boxShadow: '0 0 0 0 rgba(21, 124, 130, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-              WebkitTapHighlightColor: 'transparent'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.boxShadow = '0 0 0 2px rgba(21, 124, 130, 0.5), 0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.boxShadow = '0 0 0 0 rgba(21, 124, 130, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent',
+              fontSize: '14px'
             }}
           >
             {/* Animated border highlight glow */}
@@ -237,9 +266,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
               <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
                 style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
               >
-                <img
+                <Image
                   src="/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg"
                   alt="Gallery"
+                  width={28}
+                  height={28}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
@@ -247,9 +278,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
               <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
                 style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
               >
-                <img
+                <Image
                   src="/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg"
                   alt="Gallery"
+                  width={28}
+                  height={28}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />

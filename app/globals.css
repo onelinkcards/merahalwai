@@ -924,4 +924,40 @@ body:has(.yarl__root) {
   }
 }
 
+/* Default: Hide Z Fold specific elements on all devices */
+.zfold-actions-row-second,
+.zfold-reviews-row {
+  display: none !important;
+}
+
+/* Default: Show normal layout on all devices */
+.actions-row-second {
+  display: flex !important;
+}
+
+/* Z Fold specific styles - Galaxy Z Fold 5: 344px (folded), 512px+ (unfolded) */
+@media (min-width: 344px) and (max-width: 512px) {
+  /* Z Fold - Hide default second row */
+  .actions-row-second {
+    display: none !important;
+  }
+  
+  /* Z Fold - Show Z Fold specific second row */
+  .zfold-actions-row-second {
+    display: flex !important;
+    gap: 0.5rem !important;
+  }
+  
+  /* Z Fold - Show Reviews row */
+  .zfold-reviews-row {
+    display: flex !important;
+    gap: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Z Fold - Location button full width */
+  .zfold-location-btn {
+    flex: 1 !important;
+  }
+}
 

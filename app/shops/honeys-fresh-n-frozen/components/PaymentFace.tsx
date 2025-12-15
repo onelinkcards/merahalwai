@@ -333,12 +333,12 @@ export default function PaymentFace({
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-6 py-6 text-center" style={{ minHeight: 'auto', paddingBottom: '6rem', pointerEvents: 'auto' }}>
+      <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 py-6 text-center" style={{ minHeight: 'auto', paddingBottom: '6rem', pointerEvents: 'auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
-          className="w-full max-w-xs"
+          className="w-full max-w-sm"
         >
           {/* Title Section */}
           <motion.div
@@ -373,8 +373,8 @@ export default function PaymentFace({
                   e.stopPropagation()
                   setBankTransferModalOpen(true)
                 }}
-                className="w-full bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:from-[#7C3AED] hover:to-[#6D28D9] text-white font-bold py-3.5 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation"
-                style={{ WebkitTapHighlightColor: 'transparent', fontSize: '14px', minHeight: '52px' }}
+                className="w-full bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:from-[#7C3AED] hover:to-[#6D28D9] text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent', fontSize: '15px', minHeight: '56px', fontWeight: 700 }}
                 aria-label={t('transferViaBank')}
               >
                 <CreditCard className="w-5 h-5 pointer-events-none" />
@@ -399,14 +399,15 @@ export default function PaymentFace({
                 e.stopPropagation()
                 setScannerModalOpen(true)
               }}
-              className="w-full bg-white hover:bg-gray-50 font-bold py-3.5 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation border-[1.5px]"
+              className="w-full bg-white hover:bg-gray-50 font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation border-[1.5px]"
               style={{ 
                 WebkitTapHighlightColor: 'transparent',
                 borderColor: 'rgba(31, 182, 217, 0.35)',
                 color: '#0E7490',
                 boxShadow: '0 2px 8px rgba(14, 116, 144, 0.08)',
-                fontSize: '14px',
-                minHeight: '52px'
+                fontSize: '15px',
+                minHeight: '56px',
+                fontWeight: 700
               }}
               aria-label="Pay via Scanner"
             >
@@ -432,13 +433,15 @@ export default function PaymentFace({
                 e.stopPropagation()
                 setPaymentModalOpen(true)
               }}
-              className="w-full text-white font-bold py-3.5 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 cursor-pointer relative z-30 touch-manipulation"
+              className="w-full text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 cursor-pointer relative z-30 touch-manipulation"
               style={{ 
                 WebkitTapHighlightColor: 'transparent',
                 background: 'linear-gradient(135deg, #0E7490 0%, #1FB6D9 50%, #0E7490 100%)',
-                boxShadow: '0 4px 16px rgba(14, 116, 144, 0.3), 0 2px 8px rgba(14, 116, 144, 0.2)',
-                fontSize: '14px',
-                minHeight: '52px'
+                boxShadow: '0 4px 16px rgba(14, 116, 144, 0.4), 0 2px 8px rgba(14, 116, 144, 0.3)',
+                fontSize: '15px',
+                minHeight: '56px',
+                fontWeight: 700,
+                color: '#FFFFFF'
               }}
               aria-label="Pay via UPI"
             >
@@ -469,7 +472,7 @@ export default function PaymentFace({
                   style={{ filter: 'brightness(1.1) contrast(1.1)' }}
                 />
               </div>
-              <span>{t('payViaUPI')}</span>
+              <span className="font-bold text-white" style={{ fontWeight: 700, textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>{t('payViaUPI')}</span>
             </motion.button>
           </motion.div>
 
@@ -489,11 +492,11 @@ export default function PaymentFace({
                 e.stopPropagation()
                 onBack()
               }}
-              className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
-              style={{ WebkitTapHighlightColor: 'transparent', fontSize: '14px' }}
+              className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
+              style={{ WebkitTapHighlightColor: 'transparent', fontSize: '15px', minHeight: '56px', fontWeight: 700 }}
               aria-label={t('backToDetails')}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-5 h-5" />
               <span>{t('backToDetails')}</span>
             </motion.button>
           </motion.div>

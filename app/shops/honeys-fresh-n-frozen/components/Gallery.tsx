@@ -26,6 +26,38 @@ export default function Gallery() {
   const [visibleImages] = useState(galleryImages.slice(0, 4))
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const [imageLoading, setImageLoading] = useState(true)
+
+  // Preload all gallery images on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      galleryImages.forEach((src) => {
+        const img = document.createElement('img')
+        img.src = src
+      })
+    }
+  }, [])
+
+  // Preload adjacent images when lightbox opens or index changes
+  useEffect(() => {
+    if (lightboxOpen && typeof window !== 'undefined') {
+      setImageLoading(true)
+      const preloadIndexes = [
+        lightboxIndex === 0 ? galleryImages.length - 1 : lightboxIndex - 1,
+        lightboxIndex,
+        lightboxIndex === galleryImages.length - 1 ? 0 : lightboxIndex + 1,
+      ]
+      preloadIndexes.forEach((idx) => {
+        const img = document.createElement('img')
+        img.src = galleryImages[idx]
+        img.onload = () => {
+          if (idx === lightboxIndex) {
+            setImageLoading(false)
+          }
+        }
+      })
+    }
+  }, [lightboxOpen, lightboxIndex])
 
   const handleImageClick = (index: number, imageSrc: string) => {
     // Navigate to gallery page
@@ -36,9 +68,11 @@ export default function Gallery() {
     const actualIndex = galleryImages.indexOf(visibleImages[index])
     setLightboxIndex(actualIndex)
     setLightboxOpen(true)
+    setImageLoading(true)
   }
 
   const handlePrevious = () => {
+    setImageLoading(true)
     setLightboxIndex((prev) => {
       if (prev === 0) {
         return galleryImages.length - 1
@@ -48,6 +82,7 @@ export default function Gallery() {
   }
 
   const handleNext = () => {
+    setImageLoading(true)
     setLightboxIndex((prev) => {
       if (prev === galleryImages.length - 1) {
         return 0
@@ -62,8 +97,10 @@ export default function Gallery() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
+        setImageLoading(true)
         setLightboxIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))
       } else if (e.key === 'ArrowRight') {
+        setImageLoading(true)
         setLightboxIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))
       } else if (e.key === 'Escape') {
         setLightboxOpen(false)
@@ -153,14 +190,22 @@ export default function Gallery() {
               className="relative max-w-5xl max-h-[90vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </div>
+              )}
               <Image
                 src={galleryImages[lightboxIndex]}
                 alt={`Gallery image ${lightboxIndex + 1}`}
                 width={1600}
                 height={1600}
-                className="w-full h-auto max-h-[90vh] object-contain rounded-xl"
+                className={`w-full h-auto max-h-[90vh] object-contain rounded-xl transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
                 priority
                 quality={90}
+                unoptimized
+                onLoad={() => setImageLoading(false)}
+                onError={() => setImageLoading(false)}
               />
               
               {/* Image Counter - Bottom Center */}

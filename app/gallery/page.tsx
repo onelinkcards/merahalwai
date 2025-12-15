@@ -26,13 +26,47 @@ export default function GalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
+  const [imageLoading, setImageLoading] = useState(true)
+
+  // Preload all gallery images on mount
+  useEffect(() => {
+    galleryImages.forEach((src) => {
+      if (typeof window !== 'undefined') {
+        const img = document.createElement('img')
+        img.src = src
+      }
+    })
+  }, [])
+
+  // Preload adjacent images when lightbox opens or index changes
+  useEffect(() => {
+    if (lightboxOpen && typeof window !== 'undefined') {
+      setImageLoading(true)
+      const preloadIndexes = [
+        photoIndex === 0 ? galleryImages.length - 1 : photoIndex - 1,
+        photoIndex,
+        photoIndex === galleryImages.length - 1 ? 0 : photoIndex + 1,
+      ]
+      preloadIndexes.forEach((idx) => {
+        const img = document.createElement('img')
+        img.src = galleryImages[idx]
+        img.onload = () => {
+          if (idx === photoIndex) {
+            setImageLoading(false)
+          }
+        }
+      })
+    }
+  }, [lightboxOpen, photoIndex])
 
   const openLightbox = (index: number) => {
     setPhotoIndex(index)
     setLightboxOpen(true)
+    setImageLoading(true)
   }
 
   const handlePrevious = () => {
+    setImageLoading(true)
     setPhotoIndex((prev) => {
       if (prev === 0) {
         return galleryImages.length - 1
@@ -42,6 +76,7 @@ export default function GalleryPage() {
   }
 
   const handleNext = () => {
+    setImageLoading(true)
     setPhotoIndex((prev) => {
       if (prev === galleryImages.length - 1) {
         return 0
@@ -56,8 +91,10 @@ export default function GalleryPage() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
+        setImageLoading(true)
         setPhotoIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1))
       } else if (e.key === 'ArrowRight') {
+        setImageLoading(true)
         setPhotoIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1))
       } else if (e.key === 'Escape') {
         setLightboxOpen(false)
@@ -183,14 +220,22 @@ export default function GalleryPage() {
               className="relative max-w-5xl max-h-[90vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                </div>
+              )}
               <Image
                 src={galleryImages[photoIndex]}
                 alt={`Gallery image ${photoIndex + 1}`}
                 width={1600}
                 height={1600}
-                className="w-full h-auto max-h-[90vh] object-contain rounded-xl"
+                className={`w-full h-auto max-h-[90vh] object-contain rounded-xl transition-opacity duration-300 ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
                 priority
                 quality={90}
+                unoptimized
+                onLoad={() => setImageLoading(false)}
+                onError={() => setImageLoading(false)}
               />
               
               {/* Image Counter - Bottom Center */}
