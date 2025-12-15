@@ -58,10 +58,11 @@ export const shopConfig = {
     selectorPersons: ["Honey", "Money"] as ContactPersonLabel[],
   },
   
-  // Social Media Links
+  // Social Media Links (B2C has two Instagram accounts)
   social: {
     facebook: "https://www.facebook.com/share/198avg1doq/",
     instagram: "https://www.instagram.com/frozennation.in?igsh=MXF0YmVvenQxY2FkNg==",
+    instagramJammu: "https://www.instagram.com/honeymoneyfish_jammu/",
     twitter: "",
     linkedin: "",
   },
