@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { siteConfig } from '../data/site'
+import { shopConfig } from '../shops/honeys-fresh-n-frozen/config'
 
 export default function LoadingScreen() {
   return (
@@ -36,7 +37,7 @@ export default function LoadingScreen() {
             {/* Logo in Center */}
             <div className="w-36 h-36 rounded-full bg-white flex items-center justify-center shadow-xl overflow-hidden">
               <Image
-                src="/logo-fish.png"
+                src={shopConfig.assets.logo}
                 alt={`${siteConfig.name} Logo`}
                 width={144}
                 height={144}

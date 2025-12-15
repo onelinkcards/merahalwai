@@ -257,8 +257,8 @@ export default function Hero() {
                   }}
                 >
                   <Image
-                    src="/logo-fish.png"
-                    alt="Honey's Fresh N Frozen Logo"
+                    src={shopConfig.assets.logo}
+                    alt={`${shopConfig.name} Logo`}
                     width={128}
                     height={128}
                     className="w-full h-full object-cover"

@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: '/og-image.svg',
+        url: `${siteConfig.url}/logo-fish.png`,
         width: 1200,
-        height: 630,
+        height: 1200,
         alt: siteConfig.name,
       },
     ],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
-    images: ['/og-image.svg'],
+    images: [`${siteConfig.url}/logo-fish.png`],
   },
   robots: {
     index: true,

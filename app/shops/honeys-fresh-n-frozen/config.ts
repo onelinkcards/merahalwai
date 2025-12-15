@@ -166,7 +166,7 @@ Today, we proudly serve fresh and frozen fish, chicken, and mutton, ensuring top
   
   // Assets Paths (relative to public folder)
   assets: {
-    logo: "/shops/honeys-fresh-n-frozen/assets/logo/logo-fish.png",
+    logo: "/logo-fish.png",
     gallery: "/shops/honeys-fresh-n-frozen/assets/gallery/",
     qr: "/shops/honeys-fresh-n-frozen/assets/qr/scan.png",
   },
