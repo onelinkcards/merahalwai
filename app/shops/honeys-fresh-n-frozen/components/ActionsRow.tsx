@@ -1,0 +1,368 @@
+'use client'
+
+import { useState, useRef, useEffect, useImperativeHandle, forwardRef } from 'react'
+import { motion } from 'framer-motion'
+import { Phone, Download, MapPin, ShoppingCart, Share2, Star, ChevronUp } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { shopConfig, ContactPerson } from '../config'
+import { getTelLink, getWhatsAppLink, formatPhoneDisplay } from '../../../lib/phone'
+import { generateVCard, downloadVCard } from '../../../lib/vcard'
+import { useLanguage } from '../../../contexts/LanguageContext'
+
+interface ActionsRowProps {
+  onOpenPayments?: () => void
+}
+
+export interface ActionsRowRef {
+  openWhatsAppSelector: () => void
+}
+
+const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments }, ref) => {
+  const { t } = useLanguage()
+  const [callSelectorOpen, setCallSelectorOpen] = useState(false)
+  const [whatsappSelectorOpen, setWhatsappSelectorOpen] = useState(false)
+  const callSelectorRef = useRef<HTMLDivElement>(null)
+  const whatsappSelectorRef = useRef<HTMLDivElement>(null)
+
+  // Expose WhatsApp selector toggle to parent via ref
+  useImperativeHandle(ref, () => ({
+    openWhatsAppSelector: () => {
+      setWhatsappSelectorOpen(true)
+      setCallSelectorOpen(false)
+    }
+  }))
+
+  // Auto scroll when selector opens
+  useEffect(() => {
+    if (callSelectorOpen && callSelectorRef.current) {
+      setTimeout(() => {
+        callSelectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [callSelectorOpen])
+
+  useEffect(() => {
+    if (whatsappSelectorOpen && whatsappSelectorRef.current) {
+      setTimeout(() => {
+        whatsappSelectorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }, 100)
+    }
+  }, [whatsappSelectorOpen])
+
+  const handleCall = (person: ContactPerson) => {
+    const telLink = getTelLink(person.phoneE164)
+    window.location.href = telLink
+    setCallSelectorOpen(false)
+  }
+
+  const handleWhatsApp = (person: ContactPerson) => {
+    const message = `Hello ${person.label}, I want to place an order. Please share today's availability and rates.`
+    const whatsappLink = getWhatsAppLink(person.whatsappE164, message)
+    window.open(whatsappLink, '_blank')
+    setWhatsappSelectorOpen(false)
+  }
+
+  const handleDirections = () => {
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopConfig.contact.mapQuery)}`
+    window.open(mapUrl, '_blank')
+  }
+
+  const handleSaveContact = () => {
+    const vCard = generateVCard({
+      name: shopConfig.name,
+      organization: shopConfig.name,
+      phones: shopConfig.contactPersons.map(p => p.phoneE164.replace(/^91/, '')),
+      email: shopConfig.contact.email,
+      address: shopConfig.contact.address,
+      website: shopConfig.url,
+    })
+    downloadVCard(vCard, `${shopConfig.name.replace(/\s+/g, '-')}-contact.vcf`)
+  }
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shopConfig.name,
+          text: `Check out ${shopConfig.name} - ${shopConfig.tagline}`,
+          url: window.location.href,
+        })
+      } catch (err) {
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      alert('Link copied to clipboard!')
+    }
+  }
+
+
+  return (
+    <>
+      <div className="space-y-3" onClick={(e) => e.stopPropagation()}>
+        {/* Top Row: Call Now, Payment */}
+        <div className="flex gap-2 items-stretch">
+          {/* Call Now - Blue like Welcome Card */}
+          <Button
+            onClick={(e) => {
+              e.stopPropagation()
+              setCallSelectorOpen(!callSelectorOpen)
+              setWhatsappSelectorOpen(false)
+            }}
+            className="flex-1 h-11 text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 active:scale-[0.98] hover:opacity-90 touch-manipulation"
+            style={{ 
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(37, 99, 235, 0.8) 50%, rgba(29, 78, 216, 0.8) 100%)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+          >
+            <Phone className="w-4 h-4" style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+            <span className="text-sm primary-btn-text" style={{ fontSize: '14px' }}>{t('callNow')}</span>
+          </Button>
+
+          {/* Payment Button with NEW Badge - Only Gradient Allowed */}
+          {onOpenPayments && (
+            <div className="flex-1 relative">
+              <span className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 bg-[#EF4444] text-white text-[8px] font-semibold px-1.5 py-0.5 rounded-full whitespace-nowrap z-20">
+                NEW
+              </span>
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onOpenPayments()
+                }}
+                className="w-full h-11 text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm hover:opacity-90 touch-manipulation"
+                style={{ 
+                  background: 'radial-gradient(circle, rgb(21, 124, 130) 0%, rgb(17, 19, 21) 100%)',
+                  WebkitTapHighlightColor: 'transparent'
+                }}
+              >
+                <Image
+                  src="/icons8-bhim-48.png"
+                  alt="Payment"
+                  width={16}
+                  height={16}
+                  className="w-4 h-4 object-contain"
+                  style={{ filter: 'brightness(0) invert(1)' }}
+                />
+                <span className="text-sm primary-btn-text" style={{ fontSize: '14px' }}>{t('openPayment')}</span>
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Second Row: Menu/Order, Reviews, Location - Original layout for normal phones, 2 per row for Z Fold */}
+        <div className="flex gap-2 actions-row-second">
+          {/* Menu/Shopping Cart Button - With Shadow and Lift Effect */}
+          <Link
+            href="https://honeymoneyfish.co/order-online/menu"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-[0.98] px-4 touch-manipulation"
+            style={{ 
+              color: '#0F172A',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+          >
+            <div className="relative">
+              <ShoppingCart className="w-4 h-4 relative z-10" style={{ color: '#475569', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+            </div>
+            <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Menu/Order</span>
+          </Link>
+          
+          {/* Review Button - White with Yellow Star and Golden Shadow */}
+          <Link
+            href="/reviews"
+            onClick={(e) => e.stopPropagation()}
+            className="flex-1 h-11 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] px-4 touch-manipulation"
+            style={{ 
+              color: '#0F172A',
+              boxShadow: '0 4px 12px rgba(234, 179, 8, 0.2), 0 2px 4px rgba(234, 179, 8, 0.15)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+          >
+            <Star className="w-4 h-4" style={{ color: '#EAB308' }} fill="#EAB308" />
+            <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Reviews</span>
+          </Link>
+
+          {/* Location Button - Icon Only */}
+          <Button
+            onClick={handleDirections}
+            className="h-11 w-14 location-btn bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center justify-center active:scale-[0.98] touch-manipulation"
+            style={{ 
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+          >
+            <MapPin className="w-6 h-6 relative z-10" style={{ color: '#EF4444', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+          </Button>
+        </div>
+
+        {/* Bottom Row: Save Contact & Gallery */}
+        <div className="grid grid-cols-2 gap-2 actions-row-bottom">
+          <Button
+            onClick={handleSaveContact}
+            className="h-11 bg-white/80 hover:bg-white/90 backdrop-blur-md text-slate-700 font-medium rounded-2xl shadow-lg border-2 border-teal-500/70 hover:border-teal-600/90 relative overflow-hidden transition-all touch-manipulation"
+            style={{
+              boxShadow: '0 0 0 0 rgba(21, 124, 130, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 0 2px rgba(21, 124, 130, 0.5), 0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 0 0 rgba(21, 124, 130, 0.4), 0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            {/* Animated border highlight glow */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-teal-400/30 to-transparent animate-[shimmer_2s_infinite] pointer-events-none" />
+            <div className="relative z-10 flex items-center justify-center gap-2">
+              <Download className="w-4 h-4" />
+              <span className="text-sm font-medium" style={{ fontSize: '14px' }}>{t('saveContact')}</span>
+            </div>
+          </Button>
+          <Link 
+            href="/gallery" 
+            className="h-11 gallery-btn font-medium rounded-2xl transition-all flex items-center justify-center gap-2 px-3 active:scale-[0.98] bg-white/80 backdrop-blur-md hover:bg-white/90 touch-manipulation"
+            style={{ 
+              color: '#0F172A',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+          >
+            <div className="flex items-center -space-x-1.5 relative z-10">
+              <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
+                style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
+              >
+                <img
+                  src="/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg"
+                  alt="Gallery"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+              <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
+                style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
+              >
+                <img
+                  src="/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg"
+                  alt="Gallery"
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            </div>
+            <span className="text-sm font-medium" style={{ color: '#0F172A', fontSize: '14px' }}>Gallery</span>
+          </Link>
+        </div>
+
+
+        {/* Call Selector - Inline within Card */}
+        {callSelectorOpen && (
+          <motion.div
+            ref={callSelectorRef}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="mt-3 space-y-2"
+            style={{ overflow: 'visible', paddingBottom: '8px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-2 px-1">
+              <div className="text-xs font-semibold text-slate-600">Select Number to Call</div>
+              <button
+                onClick={() => setCallSelectorOpen(false)}
+                className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+                aria-label="Close"
+              >
+                <ChevronUp className="w-4 h-4 text-slate-600" />
+              </button>
+            </div>
+            {shopConfig.contactPersons.map((person) => (
+              <button
+                key={person.label}
+                onClick={() => handleCall(person)}
+                className="w-full h-14 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center gap-3 px-4"
+                style={{ 
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px'
+                }}
+              >
+                <div className="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center"
+                >
+                  <Phone className="w-5 h-5" style={{ color: '#475569', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+                </div>
+                <div className="flex-1 flex flex-col items-start">
+                  <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Call {person.label}</span>
+                  <span className="text-xs font-medium" style={{ color: '#475569', fontSize: '12px' }}>{person.phoneDisplay}</span>
+                </div>
+                <Phone className="w-4 h-4" style={{ color: '#475569', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }} />
+              </button>
+            ))}
+          </motion.div>
+        )}
+
+        {/* WhatsApp Selector - Inline within Card */}
+        {whatsappSelectorOpen && (
+          <motion.div
+            ref={whatsappSelectorRef}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="mt-3 space-y-2"
+            style={{ overflow: 'visible', paddingBottom: '8px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-2 px-1">
+              <div className="text-xs font-semibold text-slate-600">Select Number for WhatsApp</div>
+              <button
+                onClick={() => setWhatsappSelectorOpen(false)}
+                className="p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+                aria-label="Close"
+              >
+                <ChevronUp className="w-4 h-4 text-slate-600" />
+              </button>
+            </div>
+            {shopConfig.contactPersons.map((person) => (
+              <button
+                key={person.label}
+                onClick={() => handleWhatsApp(person)}
+                className="w-full h-14 bg-white/80 backdrop-blur-md hover:bg-white/90 rounded-2xl transition-all flex items-center gap-3 px-4 touch-manipulation"
+                style={{ 
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  WebkitTapHighlightColor: 'transparent'
+                }}
+              >
+                <div className="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center"
+                >
+                  <svg viewBox="0 0 24 24" className="w-6 h-6" fill="#25D366" style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }}>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                  </svg>
+                </div>
+                <div className="flex-1 flex flex-col items-start">
+                  <span className="text-sm font-semibold" style={{ color: '#0F172A', fontSize: '14px' }}>Message {person.label}</span>
+                  <span className="text-xs font-medium" style={{ color: '#475569', fontSize: '12px' }}>{person.phoneDisplay}</span>
+                </div>
+                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#475569" style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' }}>
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </div>
+    </>
+  )
+})
+
+ActionsRow.displayName = 'ActionsRow'
+
+export default ActionsRow
