@@ -33,10 +33,9 @@ export default function Hero() {
       setCurrentFace('info')
     }
     
-    // Reset flipping state after animation completes
     setTimeout(() => {
       setIsFlipping(false)
-    }, 650) // Slightly longer than animation duration
+    }, 850) // Slightly longer than animation duration (0.8s)
   }
 
   const handleOpenPayments = () => {
@@ -45,7 +44,7 @@ export default function Hero() {
     setCurrentFace('payment')
     setTimeout(() => {
       setIsFlipping(false)
-    }, 650)
+    }, 850)
   }
 
   const handleBackFromPayment = () => {
@@ -54,7 +53,7 @@ export default function Hero() {
     setCurrentFace('front')
     setTimeout(() => {
       setIsFlipping(false)
-    }, 650)
+    }, 850)
   }
 
 

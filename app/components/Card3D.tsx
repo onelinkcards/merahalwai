@@ -57,11 +57,9 @@ export default function Card3D({
         style={{ transformStyle: 'preserve-3d' }}
         animate={{ rotateY: getRotateY() }}
         transition={{
-          duration: 0.6,
-          ease: [0.25, 0.46, 0.45, 0.94], // easeInOut
-          type: "spring",
-          stiffness: 100,
-          damping: 20
+          duration: 0.8,
+          ease: [0.4, 0.0, 0.2, 1], // smooth ease-in-out cubic bezier
+          type: "tween"
         }}
       >
         {/* FRONT FACE - rotateY 0 */}
