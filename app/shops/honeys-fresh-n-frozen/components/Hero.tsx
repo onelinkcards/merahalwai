@@ -151,18 +151,19 @@ export default function Hero() {
                 e.preventDefault()
               }}
             >
-              {/* Instagram */}
-              {shopConfig.social?.instagram && (
-                <motion.a
-                  href={shopConfig.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
+              {/* Instagram - Opens selector */}
+              {(shopConfig.social?.instagram || shopConfig.social?.instagramJammu) && (
+                <motion.button
+                  data-instagram-button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    window.open(shopConfig.social.instagram, '_blank', 'noopener,noreferrer')
+                    // Open Instagram selector
+                    if (actionsRowRef.current) {
+                      actionsRowRef.current.openInstagramSelector()
+                    }
                   }}
                   className="h-11 w-11 p-0.5 rounded-full shadow-2xl flex items-center justify-center overflow-hidden transition-all cursor-pointer touch-manipulation"
                   style={{
@@ -170,17 +171,18 @@ export default function Hero() {
                     WebkitTapHighlightColor: 'transparent',
                     boxShadow: '0 8px 16px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2)'
                   }}
+                  title="Instagram"
                 >
                   <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
                     <Image
-                      src="/ins.jpg"
+                      src="/social.png"
                       alt="Instagram"
                       width={44}
                       height={44}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                </motion.a>
+                </motion.button>
               )}
               
               {/* Facebook */}
@@ -210,6 +212,7 @@ export default function Hero() {
               
               {/* WhatsApp - Opens Selector in Card */}
               <motion.button
+                data-whatsapp-button
                 onClick={(e) => {
                   e.stopPropagation()
                   e.preventDefault()
@@ -395,15 +398,14 @@ export default function Hero() {
 
               {/* Google Maps Preview */}
               <div 
-                className="w-full max-w-sm h-40 rounded-2xl overflow-hidden shadow-2xl mb-4 border-2 border-white/30"
-                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-sm h-40 rounded-2xl overflow-hidden shadow-2xl mb-4 border-2 border-white/30 pointer-events-none"
                 style={{ borderRadius: '16px' }}
               >
                 <iframe
                   src={`https://www.google.com/maps?q=${encodeURIComponent(shopConfig.contact.mapQuery)}&output=embed`}
                   width="100%"
                   height="100%"
-                  style={{ border: 0, borderRadius: '16px' }}
+                  style={{ border: 0, borderRadius: '16px', pointerEvents: 'none' }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -417,8 +419,15 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center gap-2 bg-white text-yellow-900 px-6 py-3 rounded-full shadow-2xl hover:shadow-xl transition-all font-bold border-2 border-white/50 overflow-hidden touch-manipulation"
-                onClick={(e) => e.stopPropagation()}
+                className="group relative inline-flex items-center gap-2 bg-white text-yellow-900 px-6 py-3 rounded-full shadow-2xl hover:shadow-xl transition-all font-bold border-2 border-white/50 overflow-hidden touch-manipulation pointer-events-auto"
+                onClick={(e) => {
+                  // Flip first, then open maps after delay
+                  e.preventDefault()
+                  handleFlip(e, true)
+                  setTimeout(() => {
+                    window.open(`https://www.google.com/maps?q=${encodeURIComponent(shopConfig.contact.mapQuery)}`, '_blank', 'noopener,noreferrer')
+                  }, 700)
+                }}
                 style={{ fontSize: '14px', WebkitTapHighlightColor: 'transparent' }}
               >
                 <MapPin className="w-5 h-5 transition-all group-hover:opacity-0 group-hover:scale-0" />

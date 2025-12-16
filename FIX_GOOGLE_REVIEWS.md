@@ -161,3 +161,4 @@ Just add the same `GOOGLE_PLACES_API_KEY` to both Vercel projects.
 **Status**: After adding the API key and redeploying, Google Reviews will work! ✅
 
 
+

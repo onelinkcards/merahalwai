@@ -11,7 +11,7 @@ export interface ContactPerson {
 export const siteConfig = {
   name: "Honey's Fresh N Frozen",
   tagline: "Fresh • Frozen • Hygienic • Trusted Since 1968",
-  url: "https://honeymoneyfish.co",
+  url: "https://honeysfreshnfrozen.vercel.app",
   
   contact: {
     phones: ["9419141495", "9419110195"],
