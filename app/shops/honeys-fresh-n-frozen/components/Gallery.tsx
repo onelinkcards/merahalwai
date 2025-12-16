@@ -7,8 +7,17 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
-// Gallery images from shop assets
-const galleryImages = [
+// Gallery images - Latest 4 from videos folder first, then old gallery images
+const allGalleryImages = [
+  // Latest images from videos folder (newest first)
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM.jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM.jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
+  // Old gallery images
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg',
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg',
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13 (1).jpeg',
@@ -20,6 +29,8 @@ const galleryImages = [
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34 (1).jpeg',
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34.jpeg',
 ]
+
+const galleryImages = allGalleryImages
 
 export default function Gallery() {
   const router = useRouter()
@@ -118,11 +129,14 @@ export default function Gallery() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="flex items-center justify-between mb-5 px-2"
+        className="mb-5 px-2"
       >
-        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
           Gallery
         </h2>
+        <p className="text-slate-300 text-sm sm:text-base font-medium">
+          Explore Videos and Images
+        </p>
       </motion.div>
 
       <div className="grid grid-cols-2 gap-3">

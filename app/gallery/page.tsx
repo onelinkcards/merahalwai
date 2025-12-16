@@ -4,10 +4,18 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, Play, ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ArrowLeft, Play, ChevronLeft, ChevronRight, X, Image as ImageIcon, Video } from 'lucide-react'
 
-// Gallery images from shop assets
+// Gallery images from videos folder (new images first)
 const galleryImages = [
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM.jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM.jpeg',
+  '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
+  // Old gallery images
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg',
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg',
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13 (1).jpeg',
@@ -20,22 +28,59 @@ const galleryImages = [
   '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34.jpeg',
 ]
 
-const galleryVideos: any[] = []
+// Gallery videos from videos folder
+const galleryVideos = [
+  {
+    src: '/videos/IMG_1928.MOV',
+    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
+    title: 'Video 1'
+  },
+  {
+    src: '/videos/IMG_1957.MOV',
+    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
+    title: 'Video 2'
+  },
+  {
+    src: '/videos/IMG_5942.MOV',
+    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
+    title: 'Video 3'
+  },
+  {
+    src: '/videos/WhatsApp Video 2025-12-16 at 1.56.47 PM.mp4',
+    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
+    title: 'Video 4'
+  },
+  {
+    src: '/videos/WhatsApp Video 2025-12-16 at 1.59.37 PM.mp4',
+    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
+    title: 'Video 5'
+  },
+]
 
 export default function GalleryPage() {
+  const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos')
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [photoIndex, setPhotoIndex] = useState(0)
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
   const [imageLoading, setImageLoading] = useState(true)
 
-  // Preload all gallery images on mount
+  // Preload all gallery images on mount for faster loading
   useEffect(() => {
-    galleryImages.forEach((src) => {
-      if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
+      // Preload first 10 images immediately
+      galleryImages.slice(0, 10).forEach((src) => {
         const img = document.createElement('img')
         img.src = src
-      }
-    })
+        img.loading = 'eager'
+      })
+      // Lazy preload remaining images
+      setTimeout(() => {
+        galleryImages.slice(10).forEach((src) => {
+          const img = document.createElement('img')
+          img.src = src
+        })
+      }, 500)
+    }
   }, [])
 
   // Preload adjacent images when lightbox opens or index changes
@@ -63,6 +108,14 @@ export default function GalleryPage() {
     setPhotoIndex(index)
     setLightboxOpen(true)
     setImageLoading(true)
+  }
+
+  const openVideo = (videoSrc: string) => {
+    setSelectedVideo(videoSrc)
+    // Auto scroll to top to ensure full view and close button visibility
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 100)
   }
 
   const handlePrevious = () => {
@@ -127,17 +180,50 @@ export default function GalleryPage() {
 
       {/* Gallery Grid */}
       <div className="max-w-md mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        {/* Tab Buttons - Clean Single Color Design */}
+        <div className="flex gap-3 mb-4 sm:mb-6 px-2">
+          <motion.button
+            onClick={() => setActiveTab('photos')}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className={`flex-1 px-5 py-3.5 rounded-2xl font-semibold text-sm sm:text-base transition-all relative overflow-hidden ${
+              activeTab === 'photos'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/90 border border-slate-700/50'
+            }`}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2.5">
+              <ImageIcon className={`w-5 h-5 ${activeTab === 'photos' ? 'text-white' : 'text-slate-400'}`} strokeWidth={2.5} />
+              <span>Photos</span>
+            </span>
+          </motion.button>
+          <motion.button
+            onClick={() => setActiveTab('videos')}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className={`flex-1 px-5 py-3.5 rounded-2xl font-semibold text-sm sm:text-base transition-all relative overflow-hidden ${
+              activeTab === 'videos'
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700/90 border border-slate-700/50'
+            }`}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2.5">
+              <Video className={`w-5 h-5 ${activeTab === 'videos' ? 'text-white' : 'text-slate-400'}`} strokeWidth={2.5} />
+              <span>Videos</span>
+            </span>
+          </motion.button>
+        </div>
+
         {/* Images Section */}
-        {galleryImages.length > 0 && (
-          <div className="mb-4 sm:mb-6">
-            <h2 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3 px-2" style={{ fontSize: 'clamp(1rem, 3.5vw, 1.125rem)' }}>Photos</h2>
+        {activeTab === 'photos' && galleryImages.length > 0 && (
+          <div>
             <div className="grid grid-cols-2 gap-2 sm:gap-3">
               {galleryImages.map((imageSrc, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.2, delay: index * 0.03 }}
                   className="rounded-xl sm:rounded-2xl shadow-md aspect-square overflow-hidden cursor-pointer group hover:shadow-xl hover:-translate-y-1 transition-all relative"
                   onClick={() => openLightbox(index)}
                   style={{ willChange: 'opacity', borderRadius: 'clamp(12px, 3vw, 16px)' }}
@@ -148,9 +234,9 @@ export default function GalleryPage() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                    priority={index < 6}
-                    loading={index < 6 ? 'eager' : 'lazy'}
-                    quality={index < 6 ? 90 : 80}
+                    priority={index < 8}
+                    loading={index < 8 ? 'eager' : 'lazy'}
+                    quality={85}
                     unoptimized={false}
                   />
                 </motion.div>
@@ -159,30 +245,48 @@ export default function GalleryPage() {
           </div>
         )}
 
-        {/* Videos Section */}
-        {galleryVideos.length > 0 && (
+        {/* Videos Section - 2 per row in 9:16 */}
+        {activeTab === 'videos' && galleryVideos.length > 0 && (
           <div>
-            <h2 className="text-lg font-semibold text-white mb-3 px-2">Videos</h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {galleryVideos.map((video, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: (galleryImages.length + index) * 0.03, duration: 0.3 }}
-                  className="rounded-2xl shadow-md aspect-square overflow-hidden cursor-pointer group hover:shadow-xl hover:-translate-y-1 transition-all relative"
-                  onClick={() => setSelectedVideo(video.src)}
-                  style={{ backgroundColor: '#FDFFFF', willChange: 'opacity' }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="rounded-xl sm:rounded-2xl shadow-lg overflow-hidden cursor-pointer group hover:shadow-xl hover:-translate-y-1 transition-all relative bg-slate-900 w-full"
+                  onClick={() => openVideo(video.src)}
+                  style={{ willChange: 'opacity' }}
                 >
-                  <video
-                    src={video.src}
-                    className="w-full h-full object-cover"
-                    muted
-                    playsInline
-                  />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
-                    <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
-                      <Play className="w-6 h-6 text-slate-900 ml-1" fill="currentColor" />
+                  {/* 9:16 Aspect Ratio Container - Portrait/Full Size */}
+                  <div className="relative w-full" style={{ paddingBottom: '177.78%' }}>
+                    {video.thumbnail ? (
+                      <Image
+                        src={video.thumbnail}
+                        alt={video.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 50vw, 33vw"
+                        priority={index < 4}
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        quality={90}
+                        unoptimized={false}
+                      />
+                    ) : (
+                      <video
+                        src={video.src}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                    )}
+                    {/* Play Button Overlay - Larger on Mobile */}
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white/95 rounded-full flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform">
+                        <Play className="w-7 h-7 sm:w-8 sm:h-8 text-slate-900 ml-0.5" fill="currentColor" />
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -276,30 +380,53 @@ export default function GalleryPage() {
         )}
       </AnimatePresence>
 
-      {/* Video Modal */}
-      {selectedVideo && (
-        <div
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedVideo(null)}
-        >
-          <div className="w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setSelectedVideo(null)}
-              className="absolute -top-12 right-0 text-white hover:text-slate-300 text-sm"
+      {/* Video Modal - Full Size 9:16 Lightbox */}
+      <AnimatePresence>
+        {selectedVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/98 backdrop-blur-sm flex items-start justify-center pt-12 sm:pt-16 px-2 sm:px-4"
+            onClick={() => setSelectedVideo(null)}
+          >
+            {/* Video Container - Full Size 9:16 Portrait - Moved Up */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              className="relative w-full mx-auto"
+              onClick={(e) => e.stopPropagation()}
+              style={{ 
+                aspectRatio: '9/16',
+                maxWidth: 'min(90vw, 400px)',
+                maxHeight: '85vh',
+                width: '100%'
+              }}
             >
-              Close
-            </button>
-            <video
-              src={selectedVideo}
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            >
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      )}
+              {/* Close Button - Top Right - With Gap */}
+              <button
+                onClick={() => setSelectedVideo(null)}
+                className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[10000] p-2.5 sm:p-3 bg-white/20 hover:bg-white/30 rounded-full transition-all backdrop-blur-md border-2 border-white/30 shadow-xl"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
+              </button>
+              
+              <video
+                src={selectedVideo}
+                controls
+                autoPlay
+                className="w-full h-full rounded-xl sm:rounded-2xl shadow-2xl"
+                style={{ objectFit: 'contain' }}
+                playsInline
+              >
+                Your browser does not support the video tag.
+              </video>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
 }
