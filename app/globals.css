@@ -935,6 +935,18 @@ body:has(.yarl__root) {
   display: flex !important;
 }
 
+/* Floating Delivery Banner Animation */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
 /* Z Fold specific styles - Galaxy Z Fold 5: 344px (folded), 512px+ (unfolded) */
 @media (min-width: 344px) and (max-width: 512px) {
   /* Z Fold - Hide default second row */

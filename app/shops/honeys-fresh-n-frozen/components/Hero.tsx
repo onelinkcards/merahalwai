@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { MapPin, Clock, Store, Hand, CreditCard, Fish, Waves, Calendar, Shield, Sparkles } from 'lucide-react'
+import { MapPin, Clock, Store, Hand, CreditCard, Fish, Waves, Calendar, Shield, Sparkles, Truck } from 'lucide-react'
 import { shopConfig, ContactPerson } from '../config'
 import ActionsRow, { ActionsRowRef } from './ActionsRow'
 import Card3D, { Face } from '../../../components/Card3D'
@@ -285,7 +285,7 @@ export default function Hero() {
               </motion.div>
 
 
-              {/* Trust Badges - Since 1968, Clean & Hygienic, Freshness Guaranteed - White BG Simple */}
+              {/* Trust Badges - Since 1968, Clean & Hygienic, Freshness Guaranteed, Free Home Delivery */}
               <motion.div 
                 className="mb-6 flex flex-wrap gap-2"
                 initial={{ opacity: 0, y: 10 }}
@@ -315,6 +315,28 @@ export default function Hero() {
                   </div>
                   <span className="text-xs font-semibold text-slate-700">Freshness Guaranteed</span>
                 </div>
+                
+                {/* Fourth Badge - Free Home Delivery with Internal Shine Animation */}
+                <a
+                  href="https://honeymoneyfish.co/order-online/menu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm cursor-pointer transition-all hover:shadow-md" 
+                  style={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    border: '2px solid #DC2626',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* Internal shine effect */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-red-300/40 to-transparent animate-[shimmer_2s_infinite] pointer-events-none" />
+                  
+                  <div className="w-4 h-4 rounded-full flex items-center justify-center relative z-10">
+                    <Truck className="w-3.5 h-3.5 text-red-600" strokeWidth={2.5} />
+                  </div>
+                  <span className="text-xs font-extrabold text-red-600 relative z-10">Free Home Delivery</span>
+                </a>
               </motion.div>
 
               {/* Actions */}
