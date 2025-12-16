@@ -10,7 +10,6 @@ import { shopConfig, ContactPerson } from '../config'
 import { getTelLink, getWhatsAppLink, formatPhoneDisplay } from '../../../lib/phone'
 import { generateVCard, downloadVCard } from '../../../lib/vcard'
 import { useLanguage } from '../../../contexts/LanguageContext'
-import { haptic } from '../../../lib/haptics'
 
 interface ActionsRowProps {
   onOpenPayments?: () => void
@@ -33,13 +32,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
   // Expose WhatsApp selector toggle to parent via ref
   useImperativeHandle(ref, () => ({
     openWhatsAppSelector: () => {
-      haptic([10, 20, 10])
       setWhatsappSelectorOpen(true)
       setCallSelectorOpen(false)
       setInstagramSelectorOpen(false)
     },
     openInstagramSelector: () => {
-      haptic(10)
       setInstagramSelectorOpen(true)
       setCallSelectorOpen(false)
       setWhatsappSelectorOpen(false)
@@ -71,14 +68,12 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
   }, [callSelectorOpen, whatsappSelectorOpen, instagramSelectorOpen])
 
   const handleCall = (person: ContactPerson) => {
-    haptic([10, 20, 10])
     const telLink = getTelLink(person.phoneE164)
     window.location.href = telLink
     setCallSelectorOpen(false)
   }
 
   const handleWhatsApp = (person: ContactPerson) => {
-    haptic([10, 20, 10])
     const message = `Hello ${person.label}, I want to place an order. Please share today's availability and rates.`
     const whatsappLink = getWhatsAppLink(person.whatsappE164, message)
     window.open(whatsappLink, '_blank')
@@ -86,13 +81,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
   }
 
   const handleDirections = () => {
-    haptic(10)
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopConfig.contact.mapQuery)}`
     window.open(mapUrl, '_blank')
   }
 
   const handleSaveContact = () => {
-    haptic(10)
     const vCard = generateVCard({
       name: shopConfig.name,
       organization: shopConfig.name,
@@ -105,7 +98,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
   }
 
   const handleShare = async () => {
-    haptic(10)
     if (navigator.share) {
       try {
         await navigator.share({
@@ -132,7 +124,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
             data-call-button
             onClick={(e) => {
               e.stopPropagation()
-              haptic([10, 20, 10])
               setCallSelectorOpen(!callSelectorOpen)
               setWhatsappSelectorOpen(false)
             }}
@@ -182,7 +173,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
               <Button
                 onClick={(e) => {
                   e.stopPropagation()
-                  haptic([10, 20, 10])
                   onOpenPayments()
                 }}
                 className="w-full h-11 text-white font-semibold rounded-full transition-all flex items-center justify-center gap-2 active:scale-[0.97] touch-manipulation relative overflow-hidden group"
@@ -286,10 +276,7 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
           {/* Review Button */}
           <Link
             href="/reviews"
-            onClick={(e) => {
-              e.stopPropagation()
-              haptic(10)
-            }}
+            onClick={(e) => e.stopPropagation()}
             className="h-11 bg-white/90 backdrop-blur-md hover:bg-white rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.97] touch-manipulation"
             style={{ 
               color: '#0F172A',
@@ -370,11 +357,7 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
             </div>
           </Button>
           <Link 
-            href="/gallery"
-            onClick={(e) => {
-              e.stopPropagation()
-              haptic(10)
-            }}
+            href="/gallery" 
             className="h-11 bg-white/90 backdrop-blur-md hover:bg-white rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.97] touch-manipulation"
             style={{ 
               color: '#0F172A',
@@ -560,7 +543,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.1 }}
                       onClick={() => {
-                        haptic(10)
                         window.open(shopConfig.social.instagram, '_blank', 'noopener,noreferrer')
                         setInstagramSelectorOpen(false)
                       }}
@@ -596,7 +578,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.2 }}
                       onClick={() => {
-                        haptic(10)
                         window.open(shopConfig.social.instagramJammu, '_blank', 'noopener,noreferrer')
                         setInstagramSelectorOpen(false)
                       }}

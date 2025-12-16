@@ -10,7 +10,6 @@ import ActionsRow, { ActionsRowRef } from './ActionsRow'
 import Card3D, { Face } from '../../../components/Card3D'
 import PaymentFace from './PaymentFace'
 import { useLanguage } from '../../../contexts/LanguageContext'
-import { haptic } from '../../../lib/haptics'
 
 export default function Hero() {
   const { t } = useLanguage()
@@ -25,9 +24,6 @@ export default function Hero() {
       return
     }
     
-    if (forceFlip) {
-      haptic(10)
-    }
     setIsFlipping(true)
     if (currentFace === 'front') {
       setCurrentFace('info')
@@ -93,7 +89,6 @@ export default function Hero() {
               
               // Allow flip on header image, logo, text, badges - everything except buttons
               if (!isButton && !isInActionsRow && !isInSocialIcons && !isInSVG) {
-                haptic(10)
                 handleFlip(e)
               }
             }}
