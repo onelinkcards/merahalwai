@@ -642,7 +642,7 @@ export default function PaymentFace({
                     </div>
                     <div className="flex items-start gap-2.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
-                      <span>Choose "Pay to UPI ID" and paste the ID.</span>
+                      <span>Choose &quot;Pay to UPI ID&quot; and paste the ID.</span>
                     </div>
                     <div className="flex items-start gap-2.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
