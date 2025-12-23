@@ -314,26 +314,24 @@ export default function PaymentFace({
 
   return (
     <div
-      className="rounded-[24px] shadow-2xl overflow-y-auto border-2 border-slate-700/50 relative w-full max-w-md mx-auto"
+      className="rounded-[28px] shadow-2xl overflow-y-auto border border-slate-800 relative w-full"
       style={{
         background: 'radial-gradient(circle at 50% 50%, #1FB6D9 0%, #0E7490 50%, #111315 100%)',
         backfaceVisibility: 'hidden',
         willChange: 'transform',
-        minHeight: '580px',
-        borderRadius: '24px'
+        minHeight: 'auto'
       }}
     >
       {/* Grain overlay */}
       <div
-        className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[24px]"
+        className="absolute inset-0 opacity-[0.06] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          borderRadius: '24px'
         }}
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 py-6 text-center" style={{ minHeight: 'auto', paddingBottom: '6rem', pointerEvents: 'auto' }}>
+      <div className="relative z-10 flex flex-col items-center px-6 py-6 text-center" style={{ minHeight: '580px', paddingBottom: '2rem', pointerEvents: 'auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -347,12 +345,12 @@ export default function PaymentFace({
             transition={{ delay: 0.2, duration: 0.3 }}
             className="mb-6"
           >
-            <h2 className="text-2xl font-black text-white mb-2 tracking-tight drop-shadow-lg" style={{ fontSize: '24px' }}>
+            <h2 className="text-2xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
               {t('securePayment')}
             </h2>
             <div className="flex items-center justify-center gap-2 text-white/70 text-xs">
               <Lock className="w-3.5 h-3.5" />
-              <span style={{ fontSize: '12px' }}>{t('secureEncrypted')}</span>
+              <span>{t('secureEncrypted')}</span>
             </div>
           </motion.div>
 
@@ -373,8 +371,8 @@ export default function PaymentFace({
                   e.stopPropagation()
                   setBankTransferModalOpen(true)
                 }}
-                className="w-full bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:from-[#7C3AED] hover:to-[#6D28D9] text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation"
-                style={{ WebkitTapHighlightColor: 'transparent', fontSize: '15px', minHeight: '56px', fontWeight: 700 }}
+                className="w-full bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] hover:from-[#7C3AED] hover:to-[#6D28D9] text-white font-bold py-3 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
                 aria-label={t('transferViaBank')}
               >
                 <CreditCard className="w-5 h-5 pointer-events-none" />
@@ -399,15 +397,12 @@ export default function PaymentFace({
                 e.stopPropagation()
                 setScannerModalOpen(true)
               }}
-              className="w-full bg-white hover:bg-gray-50 font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation border-[1.5px]"
+              className="w-full bg-white hover:bg-gray-50 font-bold py-3 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 cursor-pointer relative z-20 touch-manipulation border-[1.5px]"
               style={{ 
                 WebkitTapHighlightColor: 'transparent',
                 borderColor: 'rgba(31, 182, 217, 0.35)',
                 color: '#0E7490',
-                boxShadow: '0 2px 8px rgba(14, 116, 144, 0.08)',
-                fontSize: '15px',
-                minHeight: '56px',
-                fontWeight: 700
+                boxShadow: '0 2px 8px rgba(14, 116, 144, 0.08)'
               }}
               aria-label="Pay via Scanner"
             >
@@ -433,46 +428,45 @@ export default function PaymentFace({
                 e.stopPropagation()
                 setPaymentModalOpen(true)
               }}
-              className="w-full text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 cursor-pointer relative z-30 touch-manipulation"
+              className="w-full text-white font-bold py-3.5 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3 cursor-pointer relative z-30 touch-manipulation"
               style={{ 
                 WebkitTapHighlightColor: 'transparent',
                 background: 'linear-gradient(135deg, #0E7490 0%, #1FB6D9 50%, #0E7490 100%)',
-                boxShadow: '0 4px 16px rgba(14, 116, 144, 0.4), 0 2px 8px rgba(14, 116, 144, 0.3)',
-                fontSize: '15px',
-                minHeight: '56px',
-                fontWeight: 700,
-                color: '#FFFFFF'
+                boxShadow: '0 4px 16px rgba(14, 116, 144, 0.3), 0 2px 8px rgba(14, 116, 144, 0.2)'
               }}
               aria-label="Pay via UPI"
             >
               {/* Horizontal Payment Logos */}
               <div className="flex items-center gap-1.5">
                 <Image
-                  src="/icons8-paytm-48.png"
+                  src="/logos/icons8-paytm-48.png"
                   alt="Paytm"
-                  width={22}
-                  height={22}
-                  className="w-5.5 h-5.5 object-contain"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain"
                   style={{ filter: 'brightness(1.1) contrast(1.1)' }}
+                  unoptimized
                 />
                 <Image
-                  src="/icons8-google-pay-48.png"
+                  src="/logos/icons8-google-pay-48.png"
                   alt="Google Pay"
-                  width={22}
-                  height={22}
-                  className="w-5.5 h-5.5 object-contain"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain"
                   style={{ filter: 'brightness(1.1) contrast(1.1)' }}
+                  unoptimized
                 />
                 <Image
-                  src="/icons8-phone-pe-48.png"
+                  src="/logos/icons8-phone-pe-48.png"
                   alt="PhonePe"
-                  width={22}
-                  height={22}
-                  className="w-5.5 h-5.5 object-contain"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain"
                   style={{ filter: 'brightness(1.1) contrast(1.1)' }}
+                  unoptimized
                 />
               </div>
-              <span className="font-bold text-white" style={{ fontWeight: 700, textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>{t('payViaUPI')}</span>
+              <span>{t('payViaUPI')}</span>
             </motion.button>
           </motion.div>
 
@@ -492,11 +486,11 @@ export default function PaymentFace({
                 e.stopPropagation()
                 onBack()
               }}
-              className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
-              style={{ WebkitTapHighlightColor: 'transparent', fontSize: '15px', minHeight: '56px', fontWeight: 700 }}
+              className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
               aria-label={t('backToDetails')}
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4" />
               <span>{t('backToDetails')}</span>
             </motion.button>
           </motion.div>
@@ -506,15 +500,15 @@ export default function PaymentFace({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.3 }}
-            className="mt-4 mb-0"
+            className="mt-4"
           >
             <div className="flex items-center justify-center gap-2 mb-2">
               <Shield className="w-4 h-4 text-blue-400" />
-              <p className="text-white/80 text-xs font-medium" style={{ fontSize: '12px' }}>
+              <p className="text-white/80 text-xs font-medium">
                 {t('securePaymentGateway')}
               </p>
             </div>
-            <p className="text-white/60 text-xs" style={{ fontSize: '12px' }}>
+            <p className="text-white/60 text-xs">
               {t('worksWith')}
             </p>
           </motion.div>
@@ -533,21 +527,21 @@ export default function PaymentFace({
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border"
             style={{
               fontFamily: 'var(--font-inter), Inter, sans-serif',
-              background: 'rgba(30, 30, 30, 0.8)',
-              borderColor: 'rgba(255, 255, 255, 0.2)'
+              background: 'linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%)',
+              borderColor: '#5eead4'
             }}
           >
-            <Shield className="w-3.5 h-3.5" style={{ color: '#e0e0e0' }} />
+            <Shield className="w-3.5 h-3.5" style={{ color: '#06b6d4' }} />
             <span 
               className="text-xs font-semibold flex items-center gap-1.5"
               style={{ 
-                color: '#e0e0e0',
+                color: '#06b6d4',
                 fontSize: '12px',
                 fontWeight: 600
               }}
             >
               Secure payment gateway
-              <span style={{ color: '#9ca3af' }}>•</span>
+              <span style={{ color: '#94a3b8' }}>•</span>
               OneLink
             </span>
             <Image
@@ -555,7 +549,7 @@ export default function PaymentFace({
               alt="OneLink Logo"
               width={32}
               height={11}
-              className="opacity-100 w-8 h-auto"
+              className="opacity-100"
               quality={100}
               priority
             />
@@ -570,11 +564,10 @@ export default function PaymentFace({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 rounded-[24px] flex items-center justify-center"
+            className="absolute inset-0 z-50 rounded-[28px] flex items-center justify-center"
             style={{
               background: 'radial-gradient(circle at 50% 50%, rgba(31, 182, 217, 0.95) 0%, rgba(14, 116, 144, 0.95) 50%, rgba(17, 19, 21, 0.98) 100%)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '24px'
             }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
@@ -584,7 +577,7 @@ export default function PaymentFace({
           >
             {/* Grain overlay */}
             <div
-              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[24px]"
+              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[28px]"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
               }}
@@ -596,104 +589,67 @@ export default function PaymentFace({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="relative z-50 w-full max-w-xs px-6"
+              className="relative z-50 w-full max-w-md px-6"
               onClick={(e) => e.stopPropagation()}
               style={{ pointerEvents: 'auto' }}
             >
-              <h3 className="text-2xl font-black text-white mb-6 tracking-tight drop-shadow-lg text-center" style={{ fontSize: '24px' }}>
-                Choose Payment App
+              <h3 className="text-2xl font-black text-white mb-4 tracking-tight drop-shadow-lg text-center">
+                Pay via UPI ID
               </h3>
               
-              <div className="space-y-3 mb-4 relative z-30">
-                {/* Paytm Button - Blur Background */}
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    handlePayWithPaytm()
-                  }}
-                  className="w-full bg-[#00BAF2]/25 hover:bg-[#00BAF2]/35 backdrop-blur-md border-2 border-[#00BAF2]/60 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 py-3.5 px-6 cursor-pointer touch-manipulation"
-                  style={{ 
-                    WebkitTapHighlightColor: 'transparent',
-                    pointerEvents: 'auto',
-                    WebkitTouchCallout: 'none',
-                    userSelect: 'none'
-                  }}
-                  aria-label="Pay with Paytm"
-                >
-                  <Image
-                    src="/icons8-paytm-48.png"
-                    alt="Paytm"
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-contain"
-                    style={{ pointerEvents: 'none', filter: 'brightness(1.2) contrast(1.2)' }}
-                  />
-                  <span className="text-white font-bold text-base">Paytm</span>
-                </motion.button>
-
-                {/* Google Pay Button - Blur Background */}
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    handlePayWithGooglePay()
-                  }}
-                  className="w-full bg-[#4285F4]/25 hover:bg-[#4285F4]/35 backdrop-blur-md border-2 border-[#4285F4]/60 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 py-3.5 px-6 cursor-pointer touch-manipulation"
-                  style={{ 
-                    WebkitTapHighlightColor: 'transparent',
-                    pointerEvents: 'auto',
-                    WebkitTouchCallout: 'none',
-                    userSelect: 'none'
-                  }}
-                  aria-label="Pay with Google Pay"
-                >
-                  <Image
-                    src="/icons8-google-pay-48.png"
-                    alt="Google Pay"
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-contain"
-                    style={{ pointerEvents: 'none', filter: 'brightness(1.2) contrast(1.2)' }}
-                  />
-                  <span className="text-white font-bold text-base">Google Pay</span>
-                </motion.button>
-
-                {/* PhonePe Button - Blur Background */}
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    handlePayWithPhonePe()
-                  }}
-                  className="w-full bg-[#5F259F]/25 hover:bg-[#5F259F]/35 backdrop-blur-md border-2 border-[#5F259F]/60 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3 py-3.5 px-6 cursor-pointer touch-manipulation"
-                  style={{ 
-                    WebkitTapHighlightColor: 'transparent',
-                    pointerEvents: 'auto',
-                    WebkitTouchCallout: 'none',
-                    userSelect: 'none'
-                  }}
-                  aria-label="Pay with PhonePe"
-                >
-                  <Image
-                    src="/icons8-phone-pe-48.png"
-                    alt="PhonePe"
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 object-contain"
-                    style={{ pointerEvents: 'none', filter: 'brightness(1.2) contrast(1.2)' }}
-                  />
-                  <span className="text-white font-bold text-base">PhonePe</span>
-                </motion.button>
+              <div className="mb-6 relative z-30 space-y-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl">
+                  <p className="text-white/70 text-xs mb-3 text-center tracking-wide uppercase font-medium">UPI ID</p>
+                  
+                  {/* UPI ID Display - Full Width */}
+                  <div className="bg-white/5 rounded-xl p-4 mb-4 border border-white/10">
+                    <p className="text-white font-bold text-xl text-center break-all select-all" style={{ wordBreak: 'break-all', lineHeight: '1.5' }}>
+                      {upiId}
+                    </p>
+                  </div>
+                  
+                  {/* Copy Button - Full Width */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      copyUpi(upiId)
+                    }}
+                    className="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold py-3 px-5 rounded-xl border border-white/30 transition-all cursor-pointer flex items-center justify-center gap-2 mb-4"
+                    style={{ WebkitTapHighlightColor: 'transparent' }}
+                    aria-label="Copy UPI ID"
+                  >
+                    {upiCopied ? (
+                      <>
+                        <Check className="w-5 h-5" />
+                        <span className="text-sm font-bold">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-5 h-5" />
+                        <span className="text-sm font-bold">Copy UPI ID</span>
+                      </>
+                    )}
+                  </motion.button>
+                  
+                  {/* Instructions */}
+                  <div className="grid grid-cols-1 gap-2.5 text-white/80 text-xs pt-2 border-t border-white/10">
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
+                      <span>Open any UPI app (GPay, PhonePe, Paytm, BHIM).</span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
+                      <span>Choose "Pay to UPI ID" and paste the ID.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
+                      <span>Enter amount and complete the payment.</span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Close Button */}
@@ -707,7 +663,7 @@ export default function PaymentFace({
                   setPaymentModalOpen(false)
                 }}
                 className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
-                style={{ WebkitTapHighlightColor: 'transparent', fontSize: '14px' }}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 <span>{t('close')}</span>
               </motion.button>
@@ -723,11 +679,10 @@ export default function PaymentFace({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 rounded-[24px] flex items-center justify-center"
+            className="absolute inset-0 z-50 rounded-[28px] flex items-center justify-center"
             style={{
               background: 'radial-gradient(circle at 50% 50%, rgba(31, 182, 217, 0.95) 0%, rgba(14, 116, 144, 0.95) 50%, rgba(17, 19, 21, 0.98) 100%)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '24px'
             }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
@@ -737,7 +692,7 @@ export default function PaymentFace({
           >
             {/* Grain overlay */}
             <div
-              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[24px]"
+              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[28px]"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
               }}
@@ -749,10 +704,10 @@ export default function PaymentFace({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="relative z-10 w-full max-w-xs px-6"
+              className="relative z-10 w-full max-w-sm px-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="text-2xl font-black text-white mb-6 tracking-tight drop-shadow-lg text-center" style={{ fontSize: '24px' }}>
+              <h3 className="text-2xl font-black text-white mb-6 tracking-tight drop-shadow-lg text-center">
                 {t('bankDetails')}
               </h3>
               
@@ -761,15 +716,14 @@ export default function PaymentFace({
                   {/* Account Holder Name */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1">
-                      <p className="text-white/60 text-xs mb-0.5">{t('accountHolderName')}</p>
+                      <p className="text-white/60 text-[10px] mb-0.5">{t('accountHolderName')}</p>
                       <p className="text-white font-semibold text-sm">{bank.accountHolder}</p>
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={handleCopyAccountHolder}
-                      className="flex-shrink-0 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2.5 rounded-xl transition-all touch-manipulation"
-                      style={{ WebkitTapHighlightColor: 'transparent', minWidth: '44px', minHeight: '44px' }}
+                      className="flex-shrink-0 bg-white/20 hover:bg-white/30 backdrop-blur-sm p-2 rounded-xl transition-all"
                       aria-label="Copy Account Holder Name"
                     >
                       {accountHolderCopied ? (
@@ -783,7 +737,7 @@ export default function PaymentFace({
                   {/* Bank Name */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1">
-                      <p className="text-white/60 text-xs mb-0.5">{t('bankName')}</p>
+                      <p className="text-white/60 text-[10px] mb-0.5">{t('bankName')}</p>
                       <p className="text-white font-semibold text-sm">{bank.bankName}</p>
                       {bank.branchName && (
                         <p className="text-white/70 text-xs mt-0.5">{bank.branchName}</p>
@@ -807,7 +761,7 @@ export default function PaymentFace({
                   {/* Account Number */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1">
-                      <p className="text-white/60 text-xs mb-0.5">{t('accountNumber')}</p>
+                      <p className="text-white/60 text-[10px] mb-0.5">{t('accountNumber')}</p>
                       <p className="text-white font-bold text-base tracking-wide">{bank.accountNumberMasked}</p>
                     </div>
                     <motion.button
@@ -828,7 +782,7 @@ export default function PaymentFace({
                   {/* IFSC Code */}
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex-1">
-                      <p className="text-white/60 text-xs mb-0.5">{t('ifscCode')}</p>
+                      <p className="text-white/60 text-[10px] mb-0.5">{t('ifscCode')}</p>
                       <p className="text-white font-bold text-base tracking-wide">{bank.ifsc}</p>
                     </div>
                     <motion.button
@@ -854,7 +808,6 @@ export default function PaymentFace({
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setBankTransferModalOpen(false)}
                 className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                style={{ fontSize: '14px' }}
               >
                 <span className="pointer-events-none">{t('close')}</span>
               </motion.button>
@@ -870,11 +823,10 @@ export default function PaymentFace({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-50 rounded-[24px] flex items-center justify-center"
+            className="absolute inset-0 z-50 rounded-[28px] flex items-center justify-center"
             style={{
               background: 'radial-gradient(circle at 50% 50%, rgba(31, 182, 217, 0.95) 0%, rgba(14, 116, 144, 0.95) 50%, rgba(17, 19, 21, 0.98) 100%)',
               backdropFilter: 'blur(10px)',
-              borderRadius: '24px'
             }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
@@ -884,7 +836,7 @@ export default function PaymentFace({
           >
             {/* Grain overlay */}
             <div
-              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[24px]"
+              className="absolute inset-0 opacity-[0.06] pointer-events-none rounded-[28px]"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
               }}
@@ -896,7 +848,7 @@ export default function PaymentFace({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="relative z-50 w-full max-w-xs px-4 py-3 flex flex-col"
+              className="relative z-50 w-full max-w-sm px-4 py-3 flex flex-col"
               onClick={(e) => e.stopPropagation()}
               style={{ pointerEvents: 'auto', maxHeight: '90vh', overflowY: 'auto' }}
             >
@@ -956,7 +908,7 @@ export default function PaymentFace({
                   setScannerModalOpen(false)
                 }}
                 className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold py-2.5 px-4 rounded-2xl border border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer relative z-30 touch-manipulation"
-                style={{ WebkitTapHighlightColor: 'transparent', fontSize: '14px' }}
+                style={{ WebkitTapHighlightColor: 'transparent' }}
                 aria-label="Close Scanner"
               >
                 <ArrowLeft className="w-4 h-4" />
