@@ -11,8 +11,12 @@ import { getTelLink, getWhatsAppLink, formatPhoneDisplay } from '../../../lib/ph
 import { generateVCard, downloadVCard } from '../../../lib/vcard'
 import { useLanguage } from '../../../contexts/LanguageContext'
 
+const PRIMARY = '#EB8B23'
+const SECONDARY = '#8A3E1D'
+
 interface ActionsRowProps {
   onOpenPayments?: () => void
+  variant?: 'default' | 'merahalwai'
 }
 
 export interface ActionsRowRef {
@@ -20,7 +24,7 @@ export interface ActionsRowRef {
   openInstagramSelector: () => void
 }
 
-const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments }, ref) => {
+const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments, variant = 'default' }, ref) => {
   const { t } = useLanguage()
   const [callSelectorOpen, setCallSelectorOpen] = useState(false)
   const [whatsappSelectorOpen, setWhatsappSelectorOpen] = useState(false)
@@ -29,7 +33,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
   const whatsappSelectorRef = useRef<HTMLDivElement>(null)
   const instagramSelectorRef = useRef<HTMLDivElement>(null)
 
-  // Expose WhatsApp selector toggle to parent via ref
   useImperativeHandle(ref, () => ({
     openWhatsAppSelector: () => {
       setWhatsappSelectorOpen(true)
@@ -43,7 +46,6 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
     }
   }))
 
-  // Close on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (callSelectorOpen || whatsappSelectorOpen || instagramSelectorOpen) {
@@ -66,6 +68,111 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
       document.body.style.overflow = 'unset'
     }
   }, [callSelectorOpen, whatsappSelectorOpen, instagramSelectorOpen])
+
+  // Mera Halwai: exactly 8 buttons, 4 rows. Keep Save Contact, Payment. Design pehle jaisa.
+  if (variant === 'merahalwai') {
+    const handleSaveContactMeraHalwai = () => {
+      const vCard = generateVCard({
+        name: 'Mera Halwai',
+        organization: 'Mera Halwai',
+        phones: ['7300321034'],
+        email: 'hello@merahalwai.com',
+        address: 'House number 1034, Malviya Nagar 2nd, Kota, Rajasthan 324005',
+        website: 'https://www.merahalwai.com',
+      })
+      downloadVCard(vCard, 'Mera-Halwai-contact.vcf')
+    }
+    const btnClass = 'h-11 rounded-2xl transition-all flex items-center justify-center gap-2 active:scale-[0.97] touch-manipulation font-semibold text-sm'
+    const btnWhite = 'bg-white/90 backdrop-blur-md hover:bg-white border-2 border-slate-200/50'
+    const rowClass = 'grid grid-cols-2 gap-2'
+    return (
+      <div className="space-y-3" onClick={(e) => e.stopPropagation()}>
+        {/* Row 1: Download App, Become Vendor */}
+        <div className={rowClass}>
+          <Link href="https://www.merahalwai.com/app" target="_blank" rel="noopener noreferrer"
+            className={`${btnClass} text-white relative overflow-hidden`}
+            style={{
+              background: `linear-gradient(135deg, ${PRIMARY} 0%, ${PRIMARY}ee 50%, #d97a1a 100%)`,
+              boxShadow: '0 10px 24px rgba(235,139,35,0.35), 0 4px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.25)',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+          >
+            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" style={{ animation: 'shimmer 2.5s infinite' }} />
+            <span className="relative z-10">Download App</span>
+          </Link>
+          <Link href="https://vendors.merahalwai.com/vendor/onboarding" target="_blank" rel="noopener noreferrer"
+            className={`${btnClass} bg-white/95 hover:bg-white backdrop-blur-md text-slate-800 rounded-2xl border-2 border-amber-700/60 hover:border-amber-800/80 relative overflow-hidden transition-all touch-manipulation`}
+            style={{ boxShadow: '0 8px 20px rgba(120,53,15,0.18), 0 4px 8px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-amber-400/25 to-transparent pointer-events-none" style={{ animation: 'shimmer 2s infinite' }} />
+            <span className="relative z-10 font-semibold">Become Vendor</span>
+          </Link>
+        </div>
+        {/* Row 2: Call Now, WhatsApp */}
+        <div className={rowClass}>
+          <a href="tel:+917300321034" className={`${btnClass} text-white relative overflow-hidden`}
+            style={{
+              background: `linear-gradient(135deg, ${SECONDARY} 0%, #6b3018 100%)`,
+              boxShadow: '0 10px 24px rgba(138,62,29,0.35), 0 4px 10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.2)',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+          >
+            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" style={{ animation: 'shimmer 2.5s infinite' }} />
+            <Phone className="w-4 h-4 relative z-10" />
+            <span className="relative z-10">Call Now</span>
+          </a>
+          <a href="https://wa.me/917300321034?text=Hi,%20I'd%20like%20to%20explore%20catering%20options%20for%20my%20event." target="_blank" rel="noopener noreferrer"
+            className={`${btnClass} bg-white/95 hover:bg-white backdrop-blur-md rounded-2xl border-2 relative overflow-hidden transition-all`}
+            style={{ borderColor: '#25D366', color: '#0d9668', boxShadow: '0 8px 20px rgba(37,211,102,0.2), 0 4px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9)', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5 flex-shrink-0" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
+            <span className="font-semibold">WhatsApp</span>
+          </a>
+        </div>
+        {/* Row 3: Website, Review Us */}
+        <div className={rowClass}>
+          <Link href="https://www.merahalwai.com/" target="_blank" rel="noopener noreferrer"
+            className={`${btnClass} ${btnWhite}`}
+            style={{ color: '#0F172A', boxShadow: '0 8px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8)', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg>
+            Website
+          </Link>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); alert('Coming soon') }}
+            className={`${btnClass} ${btnWhite}`}
+            style={{ color: '#0F172A', boxShadow: '0 8px 16px rgba(234,179,8,0.25), 0 4px 8px rgba(234,179,8,0.2), inset 0 1px 0 rgba(255,255,255,0.8)', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <Star className="w-4 h-4" style={{ color: '#EAB308' }} fill="#EAB308" />
+            Review Us
+          </button>
+        </div>
+        {/* Row 4: Save Contact, Payment */}
+        <div className={rowClass}>
+          <button type="button" onClick={handleSaveContactMeraHalwai}
+            className={`${btnClass} bg-white/90 hover:bg-white backdrop-blur-md text-slate-700 rounded-2xl border-2 border-teal-500/70 hover:border-teal-600/90 relative overflow-hidden transition-all touch-manipulation`}
+            style={{ boxShadow: '0 8px 16px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8)', WebkitTapHighlightColor: 'transparent' }}
+          >
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-teal-400/30 to-transparent pointer-events-none" style={{ animation: 'shimmer 2s infinite' }} />
+            <div className="relative z-10 flex items-center justify-center gap-2">
+              <Download className="w-4 h-4" />
+              Save Contact
+            </div>
+          </button>
+          {onOpenPayments && (
+            <button type="button" onClick={(e) => { e.stopPropagation(); onOpenPayments(); }}
+              className={`${btnClass} text-white`}
+              style={{ backgroundColor: SECONDARY, boxShadow: '0 8px 16px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.15)', WebkitTapHighlightColor: 'transparent' }}
+            >
+              <Image src="/icons8-bhim-48.png" alt="" width={16} height={16} className="w-4 h-4 object-contain brightness-0 invert" />
+              Payment
+            </button>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   const handleCall = (person: ContactPerson) => {
     const telLink = getTelLink(person.phoneE164)
@@ -380,9 +487,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
               <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
                 style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
               >
-                <img
-                  src="/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg"
+                <Image
+                  src={shopConfig.assets.logo}
                   alt="Gallery"
+                  width={28}
+                  height={28}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
@@ -390,9 +499,11 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments 
               <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center overflow-hidden relative"
                 style={{ boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)' }}
               >
-                <img
-                  src="/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg"
+                <Image
+                  src={shopConfig.assets.logo}
                   alt="Gallery"
+                  width={28}
+                  height={28}
                   className="w-full h-full object-cover"
                   loading="eager"
                 />

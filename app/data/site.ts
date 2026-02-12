@@ -9,8 +9,8 @@ export interface ContactPerson {
 }
 
 export const siteConfig = {
-  name: "Honey's Fresh N Frozen",
-  tagline: "Fresh • Frozen • Hygienic • Trusted Since 1968",
+  name: "Mera Halwai",
+  tagline: "Book caterers, connect instantly, grow your business.",
   url: "https://honeysfreshnfrozen.vercel.app",
   
   contact: {
@@ -139,9 +139,9 @@ Today, we proudly serve fresh and frozen fish, chicken, and mutton, ensuring top
   },
   
   seo: {
-    title: "Honey's Fresh N Frozen - Fresh Fish, Chicken & Mutton | Jammu",
-    description: "Honey's Fresh N Frozen - Trusted since 1968. Fresh and frozen fish, chicken, mutton, and ready-to-eat products in Jammu. Premium quality, hygienic processing, doorstep delivery. Order now!",
-    keywords: "fresh fish jammu, frozen fish jammu, chicken jammu, mutton jammu, fish market jammu, honey fresh frozen, boneless fish jammu, fish delivery jammu",
+    title: "Mera Halwai OneLink – Smart Digital Card",
+    description: "Book caterers, connect instantly, and become a vendor with Mera Halwai OneLink — your all-in-one smart digital card.",
+    keywords: "mera halwai, catering, book caterers, become vendor, smart digital card, onelink, event catering, kota",
   },
   
   credits: {

@@ -6,56 +6,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowLeft, Play, ChevronLeft, ChevronRight, X, Image as ImageIcon, Video } from 'lucide-react'
 
-// Gallery images from videos folder (new images first)
-const galleryImages = [
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM.jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM.jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
-  // Old gallery images
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.14.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.32 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.32.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.33 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34.jpeg',
-]
+// Gallery images - add paths here or load from config
+const galleryImages: string[] = []
 
-// Gallery videos from videos folder
-const galleryVideos = [
-  {
-    src: '/videos/IMG_1928.MOV',
-    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
-    title: 'Video 1'
-  },
-  {
-    src: '/videos/IMG_1957.MOV',
-    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
-    title: 'Video 2'
-  },
-  {
-    src: '/videos/IMG_5942.MOV',
-    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
-    title: 'Video 3'
-  },
-  {
-    src: '/videos/WhatsApp Video 2025-12-16 at 1.56.47 PM.mp4',
-    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
-    title: 'Video 4'
-  },
-  {
-    src: '/videos/WhatsApp Video 2025-12-16 at 1.59.37 PM.mp4',
-    thumbnail: '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
-    title: 'Video 5'
-  },
-]
+// Gallery videos - add { src, thumbnail, title } here or load from config
+const galleryVideos: { src: string; thumbnail: string; title: string }[] = []
 
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos')
@@ -180,6 +135,14 @@ export default function GalleryPage() {
 
       {/* Gallery Grid */}
       <div className="max-w-md mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        {galleryImages.length === 0 && galleryVideos.length === 0 ? (
+          <div className="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-10 text-center">
+            <ImageIcon className="w-12 h-12 text-slate-500 mx-auto mb-3" strokeWidth={1.5} />
+            <p className="text-slate-400 font-medium">No photos or videos in gallery yet.</p>
+            <p className="text-slate-500 text-sm mt-1">Add images and videos to see them here.</p>
+          </div>
+        ) : (
+        <>
         {/* Tab Buttons - Clean Single Color Design */}
         <div className="flex gap-3 mb-4 sm:mb-6 px-2">
           <motion.button
@@ -294,11 +257,13 @@ export default function GalleryPage() {
             </div>
           </div>
         )}
+        </>
+        )}
       </div>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightboxOpen && (
+        {lightboxOpen && galleryImages.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

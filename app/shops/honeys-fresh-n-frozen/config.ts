@@ -98,21 +98,17 @@ export const shopConfig = {
     },
   ],
   
-  // About Section
+  // About Section (Mera Halwai)
   about: {
-    title: "Welcome to Honey's Fresh N Frozen",
-    shortDescription: "Established in 1968, Honey's Fresh N Frozen is a trusted family-run business in Jammu offering fresh and frozen fish, chicken, and mutton. Known for hygiene, quality, and innovation, we pioneered boneless fish in the region and continue to serve with the same dedication and care.",
-    fullDescription: `Our journey began in 1968 with Sh. Ashok Kumar Mahajan, a visionary entrepreneur who transformed the food culture of Jammu & Kashmir. At a time when many people avoided eating fish due to bones, he introduced boneless fish to the local market — making fish easier, safer, and more enjoyable to eat. This innovation laid the foundation of our business.
+    title: "What is Mera Halwai?",
+    shortDescription: "Mera Halwai is a curated catering marketplace that connects you with trusted halwais and caterers for every celebration.\n\nFrom weddings and festivals to corporate events and private gatherings — we make discovering and booking the perfect vendor simple, transparent, and stress-free.",
+    fullDescription: `When planning a celebration, finding the right caterer shouldn't feel overwhelming. Mera Halwai brings together verified vendors, clear pricing, and customizable packages — all in one place.
 
-In 1986, Sh. Ashok expanded into wholesale fish supply, building a strong reputation for quality, hygiene, and trust. His sons, Honey and Money, joined the business and carried forward his passion for nutritious food and clean processing.
+Whether you're hosting an intimate family function or a large-scale wedding, our platform helps you explore options, compare offerings, and choose with confidence.
 
-By 2005, we expanded into poultry products and processing, and in 2015, we added mutton products, offering customers a complete range of high-quality non-vegetarian foods.
+For vendors, Mera Halwai is a growth platform — helping halwais and caterers expand their reach, attract new clients, and manage bookings efficiently.
 
-In 2021, during the second COVID wave, we lost our beloved parents Sh. Ashok Kumar Mahajan and Smt. Rama Mahajan. Their values, discipline, and dedication continue to guide us every day.
-
-Our website HoneyMoneyFish.co is a tribute to them.
-
-Today, we proudly serve fresh and frozen fish, chicken, and mutton, ensuring top hygiene, fair pricing, and doorstep delivery in Jammu.`,
+We're building India's most trusted celebration network — where every event begins with the right partner.`,
   },
   
   // Payment Configuration

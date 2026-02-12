@@ -2,173 +2,206 @@
 
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, MapPin } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { shopConfig } from '../config'
-import { getTelLink } from '../../../lib/phone'
+import { Phone, MessageCircle, Mail, MapPin, Globe } from 'lucide-react'
+
+const SECONDARY = '#8A3E1D'
+
+const PHONE = '7300321034'
+const PHONE_E164 = '+917300321034'
+const WHATSAPP_LINK = "https://wa.me/917300321034?text=Hi%2C%20I'd%20like%20to%20explore%20catering%20options%20for%20my%20event."
+const EMAIL = 'merahalwai.com@gmail.com'
+const ADDRESS_LINES = ['House number 1034', 'Mahaveer Nagar 2nd', 'Kota, Rajasthan 324005']
+const MAP_LINK = 'https://www.google.com/maps/search/?api=1&query=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005'
+const MAP_EMBED = 'https://www.google.com/maps?q=House+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005&output=embed'
+const WEBSITE_URL = 'https://www.merahalwai.com/'
 
 export default function ContactCard() {
   const sectionRef = useRef<HTMLElement | null>(null)
-
-  const openMap = () => {
-    window.open(`https://www.google.com/maps?q=${encodeURIComponent(shopConfig.contact.mapQuery)}`, '_blank')
-  }
 
   return (
     <motion.section
       ref={sectionRef}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="w-full max-w-md mx-auto px-4 py-6"
+      className="w-full max-w-md mx-auto px-4 mt-20"
     >
-      <div className="bg-gradient-to-br from-blue-400/80 via-blue-500/80 to-blue-600/80 backdrop-blur-md rounded-3xl p-6 shadow-lg border border-blue-300/30">
-        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5 text-center">
+      <div
+        className="rounded-3xl p-6 shadow-xl border-2 overflow-hidden"
+        style={{
+          backgroundColor: '#fff',
+          borderColor: 'rgba(138,62,29,0.2)',
+          boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+        }}
+      >
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center tracking-tight" style={{ color: SECONDARY }}>
           Get in Touch
         </h2>
 
-      <div className="space-y-3">
-        {/* Phone - Three Contacts */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ delay: 0.05, duration: 0.3, ease: 'easeOut' }}
-          className="rounded-2xl shadow-md p-4 hover:shadow-lg transition-all border border-white/20 bg-white/10 backdrop-blur-sm"
-          style={{ willChange: 'opacity' }}
-        >
-          <div className="flex items-start gap-3 mb-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-black" fill="currentColor">
-                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-white mb-2 text-base">Phone</h3>
-              <div className="space-y-2">
-                {shopConfig.contactPersons.map((person) => (
-                  <div key={person.label} className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm font-semibold text-white">{person.label}</div>
-                      <div className="text-xs text-white/80">{person.phoneDisplay}</div>
-                    </div>
-                    <Button
-                      onClick={() => window.location.href = getTelLink(person.phoneE164)}
-                      className="h-8 px-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/30"
-                    >
-                      Call
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Email */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ delay: 0.1, duration: 0.3, ease: 'easeOut' }}
-          className="rounded-2xl shadow-md p-4 hover:shadow-lg transition-all border border-white/20 bg-white/10 backdrop-blur-sm"
-          style={{ willChange: 'opacity' }}
-        >
-          <div className="flex items-start gap-3 mb-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                  <polyline points="22,6 12,13 2,6"/>
-                </svg>
-              </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-white mb-1.5 text-base">Email</h3>
-              <p className="text-sm text-white/90 break-all">
-                {shopConfig.contact.email}
-              </p>
-            </div>
-          </div>
-          <Button
-            onClick={() => window.location.href = `mailto:${shopConfig.contact.email}`}
-            className="w-full h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/30"
+        <div className="space-y-4">
+          {/* Phone */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-2xl p-4 border bg-white/80"
+            style={{ borderColor: 'rgba(138,62,29,0.15)' }}
           >
-            <Mail className="w-4 h-4 mr-2 text-white" />
-            Send Email
-          </Button>
-        </motion.div>
-
-        {/* Address with Map */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ delay: 0.15, duration: 0.3, ease: 'easeOut' }}
-          className="rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all border border-white/20 bg-gradient-to-br from-yellow-50/30 to-amber-50/20 backdrop-blur-sm"
-          style={{ willChange: 'opacity' }}
-        >
-          <div className="p-4">
-            <div className="flex items-start gap-3 mb-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-                <svg viewBox="0 0 24 24" className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(138,62,29,0.1)' }}>
+                <Phone className="w-5 h-5" style={{ color: SECONDARY }} strokeWidth={2} />
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-white mb-1.5 text-base">Location</h3>
-                <p className="text-sm text-white/90 leading-relaxed mb-3">
-                  {shopConfig.contact.address}
-                </p>
+              <div>
+                <h3 className="font-semibold text-slate-800 text-base" style={{ color: SECONDARY }}>Phone</h3>
+                <p className="text-slate-600 text-sm font-medium">+91 {PHONE}</p>
               </div>
             </div>
-            <Button
-              onClick={openMap}
-              className="w-full h-10 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/30"
+            <a
+              href={`tel:${PHONE_E164}`}
+              className="w-full h-11 rounded-xl flex items-center justify-center gap-2 font-semibold text-white transition-all"
+              style={{ backgroundColor: SECONDARY }}
             >
-              <MapPin className="w-4 h-4 mr-2 text-white" />
-              Open in Maps
-            </Button>
-          </div>
+              <Phone className="w-4 h-4" />
+              Call Now
+            </a>
+          </motion.div>
 
-          {/* Embedded Map */}
-          <div className="h-48 bg-slate-800/50 backdrop-blur-sm">
-            <iframe
-              src={`https://www.google.com/maps?q=${encodeURIComponent(shopConfig.contact.mapQuery)}&output=embed`}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
+          {/* WhatsApp */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.05 }}
+            className="rounded-2xl p-4 border bg-white/80"
+            style={{ borderColor: 'rgba(138,62,29,0.15)' }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(138,62,29,0.1)' }}>
+                <MessageCircle className="w-5 h-5" style={{ color: SECONDARY }} strokeWidth={2} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-800 text-base" style={{ color: SECONDARY }}>WhatsApp</h3>
+                <p className="text-slate-600 text-sm">Chat with us directly for quick event assistance.</p>
+              </div>
+            </div>
+            <a
+              href={WHATSAPP_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl flex items-center justify-center gap-2 font-semibold text-white transition-all bg-[#25D366] hover:bg-[#20bd5a]"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp
+            </a>
+          </motion.div>
 
-        {/* Store Hours */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ delay: 0.2, duration: 0.3, ease: 'easeOut' }}
-          className="rounded-2xl shadow-md p-4 hover:shadow-lg transition-all border border-white/20 bg-white/10 backdrop-blur-sm"
-          style={{ willChange: 'opacity' }}
-        >
-          <div className="flex items-start gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-black" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
+          {/* Email */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="rounded-2xl p-4 border bg-white/80"
+            style={{ borderColor: 'rgba(138,62,29,0.15)' }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(138,62,29,0.1)' }}>
+                <Mail className="w-5 h-5" style={{ color: SECONDARY }} strokeWidth={2} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="font-semibold text-slate-800 text-base" style={{ color: SECONDARY }}>Email</h3>
+                <p className="text-slate-600 text-sm break-all">{EMAIL}</p>
+              </div>
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-white mb-1.5 text-base">Store Hours</h3>
-              <p className="text-sm text-white/90">
-                {shopConfig.contact.storeHours}
-              </p>
+            <a
+              href={`mailto:${EMAIL}`}
+              className="w-full h-11 rounded-xl flex items-center justify-center gap-2 font-semibold text-white transition-all"
+              style={{ backgroundColor: SECONDARY }}
+            >
+              <Mail className="w-4 h-4" />
+              Send Email
+            </a>
+          </motion.div>
+
+          {/* Address + Map */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15 }}
+            className="rounded-2xl overflow-hidden border bg-white/80"
+            style={{ borderColor: 'rgba(138,62,29,0.15)' }}
+          >
+            <div className="p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(138,62,29,0.1)' }}>
+                  <MapPin className="w-5 h-5" style={{ color: SECONDARY }} strokeWidth={2} />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-slate-800 text-base" style={{ color: SECONDARY }}>Address</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    {ADDRESS_LINES[0]}<br />
+                    {ADDRESS_LINES[1]}<br />
+                    {ADDRESS_LINES[2]}
+                  </p>
+                </div>
+              </div>
+              <a
+                href={MAP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full h-11 rounded-xl flex items-center justify-center gap-2 font-semibold text-white transition-all"
+                style={{ backgroundColor: SECONDARY }}
+              >
+                <MapPin className="w-4 h-4" />
+                Open in Maps
+              </a>
             </div>
-          </div>
-        </motion.div>
-      </div>
+            <div className="h-40 w-full bg-slate-800/50">
+              <iframe
+                title="Mera Halwai Kota - Map"
+                src={MAP_EMBED}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </motion.div>
+
+          {/* Website */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="rounded-2xl p-4 border bg-white/80"
+            style={{ borderColor: 'rgba(138,62,29,0.15)' }}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'rgba(138,62,29,0.1)' }}>
+                <Globe className="w-5 h-5" style={{ color: SECONDARY }} strokeWidth={2} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-800 text-base" style={{ color: SECONDARY }}>Website</h3>
+                <p className="text-slate-600 text-sm">Visit us online at merahalwai.com</p>
+              </div>
+            </div>
+            <a
+              href={WEBSITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full h-11 rounded-xl flex items-center justify-center gap-2 font-semibold text-white transition-all"
+              style={{ backgroundColor: SECONDARY }}
+            >
+              <Globe className="w-4 h-4" />
+              Visit Website
+            </a>
+          </motion.div>
+        </div>
       </div>
     </motion.section>
   )

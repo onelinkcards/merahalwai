@@ -7,30 +7,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
-// Gallery images - Latest 4 from videos folder first, then old gallery images
-const allGalleryImages = [
-  // Latest images from videos folder (newest first)
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM (1).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.24 PM.jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (1).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (2).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM (3).jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.25 PM.jpeg',
-  '/videos/WhatsApp Image 2025-12-16 at 2.03.26 PM.jpeg',
-  // Old gallery images
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.07.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.12.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.13.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.08.14.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.32 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.32.jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.33 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34 (1).jpeg',
-  '/shops/honeys-fresh-n-frozen/assets/gallery/WhatsApp Image 2025-12-13 at 17.10.34.jpeg',
-]
-
-const galleryImages = allGalleryImages
+// Gallery images - add paths here or load from config
+const galleryImages: string[] = []
 
 export default function Gallery() {
   const router = useRouter()
@@ -41,7 +19,7 @@ export default function Gallery() {
 
   // Preload all gallery images on mount
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && galleryImages.length > 0) {
       galleryImages.forEach((src) => {
         const img = document.createElement('img')
         img.src = src
@@ -139,6 +117,13 @@ export default function Gallery() {
         </p>
       </motion.div>
 
+      {galleryImages.length === 0 ? (
+        <div className="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-8 text-center">
+          <p className="text-slate-400 text-sm font-medium">No photos in gallery yet.</p>
+          <p className="text-slate-500 text-xs mt-1">Add images to the gallery to see them here.</p>
+        </div>
+      ) : (
+      <>
       <div className="grid grid-cols-2 gap-3">
         {visibleImages.map((imageSrc, index) => (
           <motion.div
@@ -178,7 +163,7 @@ export default function Gallery() {
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightboxOpen && (
+        {lightboxOpen && galleryImages.length > 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -260,6 +245,7 @@ export default function Gallery() {
         )}
       </AnimatePresence>
 
+      {galleryImages.length > 0 && (
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -275,6 +261,9 @@ export default function Gallery() {
           <ArrowRight className="w-5 h-5" />
         </Link>
       </motion.div>
+      )}
+      </>
+      )}
 
     </section>
   )
