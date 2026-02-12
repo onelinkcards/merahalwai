@@ -71,18 +71,19 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments,
 
   // Mera Halwai: exactly 8 buttons, 4 rows. Call/WhatsApp open sliders like Honey (icon + label).
   if (variant === 'merahalwai') {
-    const merahalwaiContact = {
+    type MeraHalwaiContact = { label: string; phoneE164: string; phoneDisplay: string; whatsappE164: string }
+    const merahalwaiContact: MeraHalwaiContact = {
       label: 'Mera Halwai',
       phoneE164: '917300321034',
       phoneDisplay: '73003 21034',
       whatsappE164: '917300321034',
-    } as ContactPerson
-    const merahalwaiContacts = [merahalwaiContact]
-    const handleCallMeraHalwai = (person: ContactPerson) => {
+    }
+    const merahalwaiContacts: MeraHalwaiContact[] = [merahalwaiContact]
+    const handleCallMeraHalwai = (person: MeraHalwaiContact) => {
       window.location.href = getTelLink(person.phoneE164)
       setCallSelectorOpen(false)
     }
-    const handleWhatsAppMeraHalwai = (person: ContactPerson) => {
+    const handleWhatsAppMeraHalwai = (person: MeraHalwaiContact) => {
       const message = "Hi, I'd like to explore catering options for my event."
       window.open(getWhatsAppLink(person.whatsappE164, message), '_blank', 'noopener,noreferrer')
       setWhatsappSelectorOpen(false)
