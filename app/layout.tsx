@@ -19,6 +19,9 @@ const poppins = Poppins({
   display: 'swap',
 })
 
+// Absolute OG image URL so social crawlers (WhatsApp, Facebook, etc.) always get a loadable image
+const ogImageUrl = `${siteConfig.url}/og-image.png`
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: siteConfig.seo.title,
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: '/Frame%202147226097.png',
+        url: ogImageUrl,
         width: 1200,
         height: 630,
         alt: 'Mera Halwai OneLink – Smart Digital Card. Book caterers, connect instantly, grow your business.',
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.seo.title,
     description: siteConfig.seo.description,
-    images: ['/Frame%202147226097.png'],
+    images: [ogImageUrl],
   },
   robots: {
     index: true,

@@ -8,10 +8,16 @@ export interface ContactPerson {
   whatsappE164: string // Same as phoneE164 for WhatsApp
 }
 
+// Use Vercel deployment URL when available so OG/share image loads on your actual domain
+const baseUrl =
+  typeof process !== "undefined" && process.env?.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://merahalwai.vercel.app"
+
 export const siteConfig = {
   name: "Mera Halwai",
   tagline: "Book caterers, connect instantly, grow your business.",
-  url: "https://honeysfreshnfrozen.vercel.app",
+  url: baseUrl,
   
   contact: {
     phones: ["9419141495", "9419110195"],
