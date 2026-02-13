@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Hand, Calendar, Shield, Sparkles, Truck, MapPin, Store, Clock, Globe } from 'lucide-react'
+import { Hand, Calendar, Shield, Sparkles, MapPin, Store, Clock, Globe } from 'lucide-react'
 import ActionsRow, { ActionsRowRef } from './ActionsRow'
 import Card3D, { Face } from '../../../components/Card3D'
 import PaymentFace from './PaymentFace'
@@ -179,28 +179,24 @@ export default function Hero() {
                 </p>
               </motion.div>
 
-              {/* Trust Badges - same pill style (rounded-full, backdrop-blur, border) */}
+              {/* Trust Badges - 2 in first row, 1 in second row; height same as before */}
               <motion.div
-                className="mb-6 flex flex-wrap gap-2"
+                className="mb-6 grid grid-cols-2 gap-2 items-start content-start"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
               >
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-sm" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
-                  <Calendar className="w-3.5 h-3.5" style={{ color: SECONDARY }} strokeWidth={2} />
-                  <span className="text-xs font-semibold text-slate-700">Verified Vendors</span>
+                <div className="inline-flex items-center justify-center gap-1.5 px-3 h-[30px] rounded-full backdrop-blur-sm border shadow-sm self-start" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
+                  <Calendar className="w-3.5 h-3.5 flex-shrink-0" style={{ color: SECONDARY }} strokeWidth={2} />
+                  <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">Verified Vendors</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-sm" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
-                  <Shield className="w-3.5 h-3.5" style={{ color: SECONDARY }} strokeWidth={2} />
-                  <span className="text-xs font-semibold text-slate-700">Transparent Pricing</span>
+                <div className="inline-flex items-center justify-center gap-1.5 px-3 h-[30px] rounded-full backdrop-blur-sm border shadow-sm self-start" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
+                  <Shield className="w-3.5 h-3.5 flex-shrink-0" style={{ color: SECONDARY }} strokeWidth={2} />
+                  <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">Transparent Pricing</span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-sm" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
-                  <Sparkles className="w-3.5 h-3.5" style={{ color: SECONDARY }} strokeWidth={2} />
-                  <span className="text-xs font-semibold text-slate-700">Seamless Booking</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-sm" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
-                  <Truck className="w-3.5 h-3.5" style={{ color: SECONDARY }} strokeWidth={2} />
-                  <span className="text-xs font-semibold text-slate-700">Pan-India Network</span>
+                <div className="inline-flex items-center justify-center gap-1.5 px-3 h-[30px] rounded-full backdrop-blur-sm border shadow-sm self-start" style={{ backgroundColor: `${PRIMARY}15`, borderColor: `${SECONDARY}40` }}>
+                  <Sparkles className="w-3.5 h-3.5 flex-shrink-0" style={{ color: SECONDARY }} strokeWidth={2} />
+                  <span className="text-xs font-semibold text-slate-700 whitespace-nowrap">Seamless Booking</span>
                 </div>
               </motion.div>
 
@@ -245,7 +241,7 @@ export default function Hero() {
               {/* Services - glass card */}
               <div className="flex items-start gap-3 mb-3 w-full max-w-sm rounded-2xl p-3 border border-white/20 bg-white/10 backdrop-blur-md">
                 <Store className="w-5 h-5 flex-shrink-0 mt-0.5 text-white" strokeWidth={2} />
-                <p className="text-sm font-semibold leading-relaxed text-left text-white/95">Services: Trusted Halwais & Caterers, Weddings • Parties • Festivals • Corporate Events, Pan-India Network</p>
+                <p className="text-sm font-semibold leading-relaxed text-left text-white/95">Services: Trusted Halwais & Caterers, Weddings • Parties • Festivals • Corporate Events</p>
               </div>
 
               {/* Hours / Contact - glass card */}
