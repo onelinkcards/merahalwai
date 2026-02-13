@@ -12,7 +12,7 @@ const WHATSAPP_LINK = "https://wa.me/917300321034?text=Hi%2C%20I'd%20like%20to%2
 const EMAIL = 'merahalwai.com@gmail.com'
 const ADDRESS_LINES = ['House number 1034', 'Mahaveer Nagar 2nd', 'Kota, Rajasthan 324005']
 const MAP_LINK = 'https://www.google.com/maps/search/?api=1&query=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005'
-const MAP_EMBED = 'https://www.google.com/maps?q=House+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005&output=embed'
+const MAP_EMBED = 'https://www.google.com/maps?q=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005&output=embed'
 const WEBSITE_URL = 'https://www.merahalwai.com/'
 
 export default function ContactCard() {

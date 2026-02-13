@@ -234,7 +234,7 @@ export default function Hero() {
                 <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-white" strokeWidth={2} />
                 <div className="text-left">
                   <p className="text-sm font-bold text-white">Kota Office</p>
-                  <p className="text-sm font-medium text-white/95 leading-relaxed">House number 1034, Malviya Nagar 2nd, Kota, Rajasthan 324005</p>
+                  <p className="text-sm font-medium text-white/95 leading-relaxed">House number 1034 Mahaveer Nagar 2nd, Kota, Rajasthan 324005</p>
                 </div>
               </div>
 
@@ -256,7 +256,7 @@ export default function Hero() {
               <div className="w-full max-w-sm h-40 rounded-2xl overflow-hidden border-2 border-white/25 shadow-xl mb-4 bg-slate-800/50">
                 <iframe
                   title="Mera Halwai Kota"
-                  src="https://www.google.com/maps?q=House+1034+Malviya+Nagar+2nd+Kota+Rajasthan+324005&output=embed"
+                  src="https://www.google.com/maps?q=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -268,7 +268,7 @@ export default function Hero() {
 
               {/* Open in Maps - brand color button */}
               <a
-                href="https://www.google.com/maps/search/?api=1&query=House+1034+Malviya+Nagar+2nd+Kota+Rajasthan+324005"
+                href="https://www.google.com/maps/search/?api=1&query=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-white font-bold px-6 py-3 rounded-2xl shadow-xl text-sm transition-all hover:opacity-95"

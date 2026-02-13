@@ -20,12 +20,12 @@ export const siteConfig = {
   url: baseUrl,
   
   contact: {
-    phones: ["9419141495", "9419110195"],
-    email: "honeyfish.jmu@gmail.com",
-    address: "Fish Market, Vivekanand Chowk, Jammu, Jammu & Kashmir - 180001",
-    mapQuery: "Honey's Fresh N Frozen, Fish Market, Vivekanand Chowk, Jammu",
+    phones: ["7300321034"],
+    email: "merahalwai.com@gmail.com",
+    address: "House number 1034 Mahaveer Nagar 2nd, Kota, Rajasthan 324005",
+    mapQuery: "House number 1034 Mahaveer Nagar 2nd Kota Rajasthan 324005",
     storeHours: "Monday - Sunday: 07:00 AM to 06:30 PM",
-    officePhone: "9419108405",
+    officePhone: "7300321034",
   },
   
   // Contact persons for multi-contact flow

@@ -81,8 +81,8 @@ export default function RootLayout({
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.contact.address,
-      addressLocality: 'Dehradun',
-      addressRegion: 'Uttarakhand',
+      addressLocality: 'Kota',
+      addressRegion: 'Rajasthan',
       addressCountry: 'IN',
     },
     openingHoursSpecification: {

@@ -94,7 +94,7 @@ const ActionsRow = forwardRef<ActionsRowRef, ActionsRowProps>(({ onOpenPayments,
         organization: 'Mera Halwai',
         phones: ['7300321034'],
         email: 'hello@merahalwai.com',
-        address: 'House number 1034, Malviya Nagar 2nd, Kota, Rajasthan 324005',
+        address: 'House number 1034 Mahaveer Nagar 2nd, Kota, Rajasthan 324005',
         website: 'https://www.merahalwai.com',
       })
       downloadVCard(vCard, 'Mera-Halwai-contact.vcf')
