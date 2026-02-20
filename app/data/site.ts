@@ -21,7 +21,7 @@ export const siteConfig = {
   
   contact: {
     phones: ["7300321034"],
-    email: "merahalwai.com@gmail.com",
+    email: "hello@merahalwai.com",
     address: "House number 1034 Mahaveer Nagar 2nd, Kota, Rajasthan 324005",
     mapQuery: "House number 1034 Mahaveer Nagar 2nd Kota Rajasthan 324005",
     storeHours: "Monday - Sunday: 07:00 AM to 06:30 PM",

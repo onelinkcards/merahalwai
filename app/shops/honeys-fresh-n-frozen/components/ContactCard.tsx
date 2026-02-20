@@ -9,7 +9,7 @@ const SECONDARY = '#8A3E1D'
 const PHONE = '7300321034'
 const PHONE_E164 = '+917300321034'
 const WHATSAPP_LINK = "https://wa.me/917300321034?text=Hi%2C%20I'd%20like%20to%20explore%20catering%20options%20for%20my%20event."
-const EMAIL = 'merahalwai.com@gmail.com'
+const EMAIL = 'hello@merahalwai.com'
 const ADDRESS_LINES = ['House number 1034', 'Mahaveer Nagar 2nd', 'Kota, Rajasthan 324005']
 const MAP_LINK = 'https://www.google.com/maps/search/?api=1&query=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005'
 const MAP_EMBED = 'https://www.google.com/maps?q=House+number+1034+Mahaveer+Nagar+2nd+Kota+Rajasthan+324005&output=embed'

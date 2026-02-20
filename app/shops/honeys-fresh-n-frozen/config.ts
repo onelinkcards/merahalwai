@@ -20,7 +20,7 @@ export const shopConfig = {
   // Contact Information
   contact: {
     phones: ["9419141495", "9419110195"],
-    email: "honeyfish.jmu@gmail.com",
+    email: "hello@merahalwai.com",
     address: "Fish Market, Vivekanand Chowk, Jammu, Jammu & Kashmir - 180001",
     mapQuery: "Honey's Fresh N Frozen, Fish Market, Vivekanand Chowk, Jammu",
     storeHours: "Monday - Sunday: 07:00 AM to 06:30 PM",
